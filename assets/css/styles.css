@@ -7,9 +7,12 @@
   --pink-soft: #fbf3f1;
   --line: #dedfdd;
   --card-line: #e9e3da;
+
   --section-light: #ffffff;
   --section-soft: #fbf3f1;
+
   --footer-bg: #ffffff;
+
   --page-gutter: clamp(20px, 5.55vw, 80px);
   --section-space: clamp(72px, 8vw, 120px);
   --content-max: 1440px;
@@ -27,8 +30,10 @@ html {
 body {
   margin: 0;
   overflow-x: hidden;
+
   background: var(--bg);
   color: var(--text);
+
   font-family: "Figtree", "Segoe UI", sans-serif;
 }
 
@@ -44,7 +49,9 @@ img {
 .page-shell {
   width: 100%;
   max-width: none;
+
   margin: 0;
+
   overflow-wrap: anywhere;
 }
 
@@ -60,22 +67,35 @@ img {
 
 .navbar {
   width: 100%;
+
   background: #ffffff;
+
   border-bottom: 1px solid var(--card-line);
 }
 
 .Navbar {
   display: flex !important;
+
   width: 100% !important;
   max-width: var(--content-max);
+
   min-height: 90px;
   height: auto !important;
+
   margin-inline: auto;
-  padding: 16px var(--page-gutter) !important;
+
+  padding:
+    16px
+    var(--page-gutter) !important;
+
   gap: 16px;
+
   align-items: center !important;
+
   flex-wrap: wrap;
+
   background: transparent !important;
+
   border-bottom: 0 !important;
 }
 
@@ -85,6 +105,7 @@ img {
 
 .BrandHeader img {
   flex-shrink: 0;
+
   object-fit: contain;
 }
 
@@ -97,33 +118,55 @@ img {
    ========================================================= */
 
 main > .HeroSection {
+  position: relative;
+
+  isolation: isolate;
+
   display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
   width: 100% !important;
   max-width: var(--content-max);
+
   margin-inline: auto;
-  padding: clamp(72px, 7vw, 100px) var(--page-gutter) !important;
-  gap: clamp(32px, 4vw, 56px) !important;
+
+  padding:
+    clamp(72px, 7vw, 100px)
+    var(--page-gutter) !important;
+
+  gap:
+    clamp(32px, 4vw, 56px) !important;
+
   align-items: center !important;
-  position: relative;
-  isolation: isolate;
+
   background: transparent !important;
 }
 
 main > .HeroSection::before {
   content: "";
+
   position: absolute;
+
   inset-block: 0;
+
   left: 50%;
+
   z-index: -1;
+
   width: 100vw;
+
   background: var(--section-soft);
+
   transform: translateX(-50%);
+
   pointer-events: none;
 }
 
 .HeroSection > .Frame {
   width: 100% !important;
+
   max-width: none;
 }
 
@@ -133,41 +176,64 @@ main > .HeroSection::before {
 
 .HeroSection > .Frame:last-child {
   position: relative;
+
   width: 100% !important;
+
   height: auto !important;
+
   aspect-ratio: 624 / 540;
 }
 
 .HeroSection > .Frame:last-child > img {
   width: 100% !important;
+
   height: 100% !important;
+
   object-fit: cover;
 }
 
 .AlimenteOSucessoDoSeuEventoComNutriaO span {
-  font-size: clamp(42px, 3.9vw, 56px) !important;
+  font-size:
+    clamp(
+      42px,
+      3.9vw,
+      56px
+    ) !important;
+
   line-height: 1.15 !important;
 }
 
 .TransformamosConhecimentoEmSoluEsQueFazemADiferenAANutriaOOfereceServiOsEmNutriOComQualidadeTCnicaEExcelNciaProfissionalDesdeCoffeeBreaksAtRotulagemNutricionalEElaboraODeFichasTCnicasTudoIssoComAInovaOEOConhecimentoDeUmaEquipeAcadMicaPreparadaParaEntregarOsMelhoresResultados {
-  font-size: clamp(16px, 1.3vw, 18px) !important;
+  font-size:
+    clamp(
+      16px,
+      1.3vw,
+      18px
+    ) !important;
+
   line-height: 1.6 !important;
 }
 
 .HeroBadge {
   position: absolute !important;
+
   right: 12px !important;
   bottom: 12px !important;
+
   left: auto !important;
   top: auto !important;
 
   display: flex !important;
 
   width: 176px !important;
+
   min-height: 116px;
+
   height: auto !important;
 
-  padding: 18px 20px !important;
+  padding:
+    18px
+    20px !important;
 
   flex-direction: column;
 
@@ -188,10 +254,15 @@ main > .HeroSection::before {
 
   color: #ffffff;
 
-  font-family: "Fraunces", Georgia, serif;
+  font-family:
+    "Fraunces",
+    Georgia,
+    serif;
 
   font-size: 32px;
+
   font-weight: 700;
+
   line-height: 1;
 
   text-align: center;
@@ -203,17 +274,20 @@ main > .HeroSection::before {
   color: #fff3f1;
 
   font-size: 12px;
+
   font-weight: 700;
+
   line-height: 1.35;
 
   letter-spacing: 0.03em;
 
   text-align: center;
+
   text-transform: uppercase;
 }
 
 /* =========================================================
-   SEÇÕES FULL-WIDTH + DIVISORES
+   SEÇÕES
    ========================================================= */
 
 main > section {
@@ -234,7 +308,7 @@ main > section.section-soft {
   background: var(--section-soft);
 }
 
-/* Barra horizontal simples entre seções */
+/* DIVISÓRIA */
 
 main > section::before {
   content: "";
@@ -246,16 +320,21 @@ main > section::before {
 
   z-index: 3;
 
-  width: min(
-    1280px,
-    calc(100% - (2 * var(--page-gutter)))
-  );
+  width:
+    min(
+      1280px,
+      calc(
+        100% -
+        (2 * var(--page-gutter))
+      )
+    );
 
   height: 1px;
 
   background: var(--line);
 
-  transform: translateX(-50%);
+  transform:
+    translateX(-50%);
 
   pointer-events: none;
 }
@@ -268,6 +347,7 @@ main > section > .section-inner {
   display: flex !important;
 
   width: 100% !important;
+
   max-width: var(--content-max);
 
   height: auto !important;
@@ -287,13 +367,19 @@ main > section > .section-inner {
 #como-funciona > .section-inner,
 #contato > .section-inner {
   flex-direction: column !important;
+
   align-items: center !important;
 }
 
 #servicos > .section-inner,
 #portfolio > .section-inner,
 #como-funciona > .section-inner {
-  gap: clamp(44px, 4.4vw, 64px) !important;
+  gap:
+    clamp(
+      44px,
+      4.4vw,
+      64px
+    ) !important;
 }
 
 #coffees > .section-inner {
@@ -311,7 +397,12 @@ main > section > .section-inner {
   grid-template-columns:
     repeat(2, minmax(0, 1fr));
 
-  gap: clamp(48px, 5.5vw, 80px) !important;
+  gap:
+    clamp(
+      48px,
+      5.5vw,
+      80px
+    ) !important;
 
   align-items: center !important;
 }
@@ -323,7 +414,9 @@ main > section > .section-inner {
   max-width: none;
 }
 
-#quem-somos > .section-inner > .Frame:first-child {
+#quem-somos
+  > .section-inner
+  > .Frame:first-child {
   max-width: 515px;
 
   height: auto !important;
@@ -333,7 +426,10 @@ main > section > .section-inner {
   justify-self: center;
 }
 
-#quem-somos > .section-inner > .Frame:first-child img {
+#quem-somos
+  > .section-inner
+  > .Frame:first-child
+  img {
   width: 100% !important;
 
   height: 100% !important;
@@ -341,7 +437,9 @@ main > section > .section-inner {
   object-fit: cover;
 }
 
-#diferenciais > .section-inner > .Frame:last-child {
+#diferenciais
+  > .section-inner
+  > .Frame:last-child {
   width: 100% !important;
 
   max-width: 624px;
@@ -371,7 +469,7 @@ main > section > .section-inner {
 
   border:
     1px solid
-    rgba(42, 48, 43, 0.1) !important;
+    rgba(42, 48, 43, 0.10) !important;
 
   box-shadow:
     0 4px 10px rgba(42, 48, 43, 0.05),
@@ -379,7 +477,7 @@ main > section > .section-inner {
 }
 
 /* =========================================================
-   CABEÇALHOS DE SEÇÃO
+   CABEÇALHOS
    ========================================================= */
 
 .section-heading {
@@ -396,7 +494,6 @@ main > section > .section-inner {
   flex-direction: column !important;
 
   align-items: center !important;
-
   justify-content: flex-start !important;
 
   gap: 16px !important;
@@ -414,7 +511,6 @@ main > section > .section-inner {
     18px !important;
 
   align-items: center !important;
-
   justify-content: center !important;
 }
 
@@ -429,17 +525,23 @@ main > section > .section-inner {
   line-height: 16px !important;
 }
 
+.AUniODoRigorCientFicoComAEnergiaJovem,
 .SoluEsCompletasCriadasParaElevarSeuPadrO,
 .VislumbreDeMomentosReaisQueNutrimosEOrganizamos,
 .TrSPassosSimplesParaOSeuProjetoNascer,
 .OCarinhoDeQuemJContratouNossoTime,
 .PorQueEscolherANutriaOParaSeuProjeto {
   font-size:
-    clamp(34px, 3vw, 40px) !important;
+    clamp(
+      34px,
+      3vw,
+      40px
+    ) !important;
 
   line-height: 1.2 !important;
 }
 
+.AUniODoRigorCientFicoComAEnergiaJovem span,
 .SoluEsCompletasCriadasParaElevarSeuPadrO span,
 .VislumbreDeMomentosReaisQueNutrimosEOrganizamos span,
 .TiposDeCoffees span,
@@ -454,7 +556,11 @@ main > section > .section-inner {
 .DoCateringPersonalizadoConformidadeLegalDosSeusAlimentosConheAAsTrSFrentesPrincipaisDeAtuaODaNutriaO,
 .EspreiteUmPoucoDeNossaDedicaOVisualEGastronMicaNosLtimosEventosAtendidosEmPortoAlegre,
 .SaibaTudoQueOferecemosNoNossoPrincipalServiO {
-  width: min(680px, 100%) !important;
+  width:
+    min(
+      680px,
+      100%
+    ) !important;
 
   max-width: 680px;
 
@@ -463,7 +569,11 @@ main > section > .section-inner {
 
 .TiposDeCoffees {
   font-size:
-    clamp(34px, 3vw, 40px) !important;
+    clamp(
+      34px,
+      3vw,
+      40px
+    ) !important;
 
   line-height: 1.2 !important;
 }
@@ -504,11 +614,11 @@ main > section > .section-inner {
 
   border:
     1px solid
-    rgba(45, 53, 46, 0.1) !important;
+    rgba(45, 53, 46, 0.10) !important;
 
   box-shadow:
     0 8px 24px
-    rgba(45, 53, 46, 0.1) !important;
+    rgba(45, 53, 46, 0.10) !important;
 }
 
 .IdealParaProdutosAlimentCiosQuePrecisamDeUmRTuloCompletoEAdequadoLegislaO {
@@ -555,11 +665,11 @@ main > section > .section-inner {
 
   border:
     1px solid
-    rgba(45, 53, 46, 0.1) !important;
+    rgba(45, 53, 46, 0.10) !important;
 
   box-shadow:
     0 8px 24px
-    rgba(45, 53, 46, 0.1) !important;
+    rgba(45, 53, 46, 0.10) !important;
 }
 
 .portfolio-grid > .Frame > .Frame {
@@ -614,7 +724,7 @@ main > section > .section-inner {
 
   border:
     1px solid
-    rgba(45, 53, 46, 0.1) !important;
+    rgba(45, 53, 46, 0.10) !important;
 
   border-radius: 20px !important;
 
@@ -717,11 +827,11 @@ main > section > .section-inner {
 
   border:
     1px solid
-    rgba(45, 53, 46, 0.1) !important;
+    rgba(45, 53, 46, 0.10) !important;
 
   box-shadow:
     0 8px 24px
-    rgba(45, 53, 46, 0.1) !important;
+    rgba(45, 53, 46, 0.10) !important;
 }
 
 /* =========================================================
@@ -773,13 +883,13 @@ main > section > .section-inner {
 
   border:
     1px solid
-    rgba(45, 53, 46, 0.1) !important;
+    rgba(45, 53, 46, 0.10) !important;
 
   border-radius: 20px !important;
 
   box-shadow:
     0 8px 24px
-    rgba(45, 53, 46, 0.1) !important;
+    rgba(45, 53, 46, 0.10) !important;
 }
 
 /* =========================================================
@@ -797,7 +907,7 @@ main > section > .section-inner {
 
   box-shadow:
     0 8px 24px
-    rgba(45, 53, 46, 0.1) !important;
+    rgba(45, 53, 46, 0.10) !important;
 }
 
 /* =========================================================
@@ -816,7 +926,11 @@ main > section > .section-inner {
   min-height: 0 !important;
 
   padding:
-    clamp(36px, 5vw, 64px) !important;
+    clamp(
+      36px,
+      5vw,
+      64px
+    ) !important;
 
   gap: 28px !important;
 
@@ -824,7 +938,7 @@ main > section > .section-inner {
 
   border:
     1px solid
-    rgba(42, 48, 43, 0.1) !important;
+    rgba(42, 48, 43, 0.10) !important;
 
   border-radius: 28px !important;
 
@@ -832,19 +946,26 @@ main > section > .section-inner {
     0 8px 18px
       rgba(45, 53, 46, 0.08),
     0 20px 42px
-      rgba(45, 53, 46, 0.1) !important;
+      rgba(45, 53, 46, 0.10) !important;
 }
 
 .ProntoParaTransformarSuaExperiNcia {
   font-size:
-    clamp(32px, 3.4vw, 44px) !important;
+    clamp(
+      32px,
+      3.4vw,
+      44px
+    ) !important;
 
   line-height: 1.12 !important;
 }
 
 .SejaParaOrganizarUmBanqueteDeEncerramentoAcadMicoOuRegularizarAsFichasETabelasDosSeusProdutosNossaEquipeEstProntaParaLheAtender {
   width:
-    min(640px, 100%) !important;
+    min(
+      640px,
+      100%
+    ) !important;
 
   line-height: 1.6 !important;
 }
@@ -856,7 +977,10 @@ main > section > .section-inner {
     repeat(3, minmax(0, 1fr));
 
   width:
-    min(760px, 100%);
+    min(
+      760px,
+      100%
+    );
 
   gap: 12px;
 }
@@ -959,9 +1083,9 @@ main > section > .section-inner {
   display: grid !important;
 
   grid-template-columns:
-    minmax(280px, 1.4fr)
-    minmax(140px, 0.55fr)
-    minmax(240px, 1fr);
+    minmax(0, 1fr)
+    auto
+    minmax(0, 1fr);
 
   width: 100% !important;
 
@@ -1024,11 +1148,13 @@ main > section > .section-inner {
 
   justify-self: center;
 
-  align-items: flex-start !important;
+  align-items: center !important;
 
   justify-content: flex-start !important;
 
   gap: 9px !important;
+
+  text-align: center;
 }
 
 .footer-contact {
@@ -1110,8 +1236,12 @@ main > section > .section-inner {
       minmax(0, 1fr);
   }
 
-  #quem-somos > .section-inner > .Frame:first-child,
-  #diferenciais > .section-inner > .Frame:last-child {
+  #quem-somos
+    > .section-inner
+    > .Frame:first-child,
+  #diferenciais
+    > .section-inner
+    > .Frame:last-child {
     width: 100% !important;
 
     max-width: 100%;
@@ -1133,13 +1263,13 @@ main > section > .section-inner {
 
   .footer-main {
     grid-template-columns:
-      minmax(220px, 1.2fr)
-      minmax(120px, 0.55fr)
-      minmax(200px, 1fr);
+      minmax(0, 1fr)
+      auto
+      minmax(0, 1fr);
 
     gap:
       28px
-      36px !important;
+      32px !important;
   }
 }
 
@@ -1166,7 +1296,11 @@ main > section > .section-inner {
 @media (max-width: 760px) {
   :root {
     --page-gutter:
-      clamp(16px, 5vw, 22px);
+      clamp(
+        16px,
+        5vw,
+        22px
+      );
 
     --section-space: 60px;
   }
@@ -1242,7 +1376,8 @@ main > section > .section-inner {
   }
 
   .TransformamosConhecimentoEmSoluEsQueFazemADiferenAANutriaOOfereceServiOsEmNutriOComQualidadeTCnicaEExcelNciaProfissionalDesdeCoffeeBreaksAtRotulagemNutricionalEElaboraODeFichasTCnicasTudoIssoComAInovaOEOConhecimentoDeUmaEquipeAcadMicaPreparadaParaEntregarOsMelhoresResultados {
-    font-size: 16px !important;
+    font-size:
+      16px !important;
 
     line-height:
       1.55 !important;
@@ -1282,12 +1417,266 @@ main > section > .section-inner {
       var(--section-space) !important;
   }
 
+  /* =====================================================
+     QUEM SOMOS / DIFERENCIAIS - CENTRALIZAÇÃO MOBILE
+     ===================================================== */
+
+  #quem-somos > .section-inner,
+  #diferenciais > .section-inner {
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    justify-items:
+      center !important;
+
+    align-items:
+      center !important;
+
+    gap:
+      32px !important;
+  }
+
+  #quem-somos
+    > .section-inner
+    > .Frame,
+  #diferenciais
+    > .section-inner
+    > .Frame {
+    width:
+      100% !important;
+
+    max-width:
+      100% !important;
+
+    margin-inline:
+      auto !important;
+
+    justify-self:
+      center !important;
+  }
+
+  /* Imagem do Quem Somos */
+
+  #quem-somos
+    > .section-inner
+    > .Frame:first-child {
+    max-width:
+      515px !important;
+
+    margin-inline:
+      auto !important;
+
+    justify-self:
+      center !important;
+  }
+
+  /*
+    Container textual do Quem Somos.
+    O inline-style original usa align-items:flex-start,
+    por isso precisamos sobrescrever no mobile.
+  */
+
+  #quem-somos
+    > .section-inner
+    > .Frame:last-child {
+    align-items:
+      center !important;
+
+    justify-content:
+      flex-start !important;
+
+    text-align:
+      center;
+  }
+
+  #quem-somos
+    > .section-inner
+    > .Frame:last-child
+    > .Frame:first-child {
+    width:
+      100% !important;
+
+    align-items:
+      center !important;
+
+    text-align:
+      center;
+  }
+
+  #quem-somos
+    > .section-inner
+    > .Frame:last-child
+    > .Frame:first-child
+    > .Frame:first-child {
+    align-self:
+      center !important;
+
+    margin-inline:
+      auto !important;
+  }
+
+  #quem-somos .QuemSomos {
+    width:
+      auto !important;
+
+    text-align:
+      center !important;
+  }
+
+  #quem-somos
+    .AUniODoRigorCientFicoComAEnergiaJovem {
+    width:
+      100% !important;
+
+    text-align:
+      center !important;
+  }
+
+  #quem-somos
+    .ANutriaOAEmpresaJNiorDoCursoDeNutriODaUfcspaUniversidadeFederalDeCiNciasDaSaDeDePortoAlegreComoAssociaOSemFinsLucrativosGeridaInteiramentePorEstudantesSobSupervisODiretaDoCorpoDocenteNossoObjetivoDuploEntregarServiOsExcepcionaisDeCateringERotulagemParaAComunidadeRegionalEnquantoCapacitamosOsFuturosLDeresDaNutriOBrasileira {
+    width:
+      min(
+        640px,
+        100%
+      ) !important;
+
+    margin-inline:
+      auto;
+
+    text-align:
+      center !important;
+  }
+
+  /*
+    Os cards UFCSPA / Focado continuam
+    ocupando o espaço disponível, mas
+    o grupo fica centralizado.
+  */
+
+  #quem-somos
+    > .section-inner
+    > .Frame:last-child
+    > .Frame:last-child {
+    width:
+      100% !important;
+
+    margin-inline:
+      auto;
+
+    justify-content:
+      center !important;
+  }
+
+  /* DIFERENCIAIS */
+
+  #diferenciais
+    > .section-inner
+    > .Frame:first-child {
+    width:
+      100% !important;
+
+    margin-inline:
+      auto !important;
+
+    justify-self:
+      center !important;
+  }
+
+  #diferenciais
+    > .section-inner
+    > .Frame:first-child
+    > .Frame:first-child {
+    width:
+      100% !important;
+
+    align-items:
+      center !important;
+
+    text-align:
+      center;
+  }
+
+  #diferenciais
+    > .section-inner
+    > .Frame:first-child
+    > .Frame:first-child
+    > .Frame:first-child {
+    align-self:
+      center !important;
+
+    margin-inline:
+      auto !important;
+  }
+
+  #diferenciais
+    .NossosDiferenciais {
+    width:
+      auto !important;
+
+    text-align:
+      center !important;
+  }
+
+  #diferenciais
+    .PorQueEscolherANutriaOParaSeuProjeto {
+    width:
+      100% !important;
+
+    text-align:
+      center !important;
+  }
+
+  /*
+    A lista de diferenciais continua
+    alinhada à esquerda por legibilidade.
+  */
+
+  #diferenciais
+    > .section-inner
+    > .Frame:first-child
+    > .Frame:last-child {
+    width:
+      100% !important;
+
+    align-items:
+      stretch !important;
+  }
+
+  /*
+    Card verde também fica exatamente
+    no centro do viewport.
+  */
+
+  #diferenciais
+    > .section-inner
+    > .Frame:last-child {
+    width:
+      100% !important;
+
+    max-width:
+      624px !important;
+
+    margin-inline:
+      auto !important;
+
+    justify-self:
+      center !important;
+
+    padding:
+      28px !important;
+
+    gap:
+      24px !important;
+  }
+
   .section-heading {
     max-width: 100%;
 
-    gap: 14px !important;
+    gap:
+      14px !important;
   }
 
+  .AUniODoRigorCientFicoComAEnergiaJovem,
   .SoluEsCompletasCriadasParaElevarSeuPadrO,
   .VislumbreDeMomentosReaisQueNutrimosEOrganizamos,
   .TiposDeCoffees,
@@ -1303,6 +1692,15 @@ main > section > .section-inner {
 
     line-height:
       1.16 !important;
+  }
+
+  .AUniODoRigorCientFicoComAEnergiaJovem span,
+  .PorQueEscolherANutriaOParaSeuProjeto span {
+    font-size:
+      inherit !important;
+
+    line-height:
+      inherit !important;
   }
 
   .DoCateringPersonalizadoConformidadeLegalDosSeusAlimentosConheAAsTrSFrentesPrincipaisDeAtuaODaNutriaO,
@@ -1324,7 +1722,8 @@ main > section > .section-inner {
   }
 
   #depoimentos > .section-inner {
-    gap: 24px !important;
+    gap:
+      24px !important;
   }
 
   #depoimentos
@@ -1337,19 +1736,26 @@ main > section > .section-inner {
 
   .services-grid,
   .portfolio-grid {
-    gap: 20px !important;
+    gap:
+      20px !important;
   }
 
-  .services-grid > .Frame > .Frame,
-  .portfolio-grid > .Frame,
-  .steps-grid > .Frame,
+  .services-grid
+    > .Frame
+    > .Frame,
+  .portfolio-grid
+    > .Frame,
+  .steps-grid
+    > .Frame,
   #depoimentos
     > .section-inner
     > .Frame:nth-child(n + 2)
     > .Frame {
-    height: auto !important;
+    height:
+      auto !important;
 
-    min-height: 0 !important;
+    min-height:
+      0 !important;
   }
 
   #servicos img,
@@ -1361,34 +1767,31 @@ main > section > .section-inner {
     > .Frame
     > .Frame
     > .Frame:last-child {
-    padding: 24px !important;
+    padding:
+      24px !important;
   }
 
   .portfolio-grid
     > .Frame
     > .Frame {
-    padding: 20px !important;
+    padding:
+      20px !important;
   }
 
   .steps-grid > .Frame {
-    padding: 24px !important;
-  }
-
-  #diferenciais
-    > .section-inner
-    > .Frame:last-child {
-    padding: 28px !important;
-
-    gap: 24px !important;
+    padding:
+      24px !important;
   }
 
   #diferenciais
     > .section-inner
     > .Frame:last-child
     > .Frame:last-child {
-    display: flex !important;
+    display:
+      flex !important;
 
-    flex-wrap: wrap;
+    flex-wrap:
+      wrap;
 
     gap:
       18px
@@ -1405,17 +1808,20 @@ main > section > .section-inner {
   }
 
   #coffees > .section-inner {
-    gap: 28px !important;
+    gap:
+      28px !important;
   }
 
   .coffee-row {
-    gap: 16px !important;
+    gap:
+      16px !important;
   }
 
   .coffee-card {
     min-height: 0;
 
-    height: auto !important;
+    height:
+      auto !important;
   }
 
   .coffee-card-body {
@@ -1425,17 +1831,22 @@ main > section > .section-inner {
 
     min-height: 0;
 
-    height: auto !important;
+    height:
+      auto !important;
 
-    flex: none !important;
+    flex:
+      none !important;
 
-    padding: 20px !important;
+    padding:
+      20px !important;
 
-    gap: 14px !important;
+    gap:
+      14px !important;
   }
 
   .coffee-card-copy {
-    max-width: none;
+    max-width:
+      none;
   }
 
   .coffee-card-copy
@@ -1446,7 +1857,8 @@ main > section > .section-inner {
 
   .coffee-card-copy
     > div:last-child {
-    max-width: none;
+    max-width:
+      none;
 
     font-size:
       14px !important;
@@ -1456,23 +1868,29 @@ main > section > .section-inner {
   }
 
   #coffees .PlanIcon {
-    width: 30px !important;
+    width:
+      30px !important;
 
-    height: 30px !important;
+    height:
+      30px !important;
   }
 
   .steps-grid {
-    gap: 18px !important;
+    gap:
+      18px !important;
   }
 
   [data-layer="01"],
   [data-layer="02"],
   [data-layer="03"] {
-    left: auto !important;
+    left:
+      auto !important;
 
-    right: 18px !important;
+    right:
+      18px !important;
 
-    top: 12px !important;
+    top:
+      12px !important;
 
     font-size:
       54px !important;
@@ -1482,7 +1900,8 @@ main > section > .section-inner {
     > .section-inner
     > .Frame:nth-child(n + 2)
     > .Frame {
-    padding: 24px !important;
+    padding:
+      24px !important;
   }
 
   .contact-card {
@@ -1490,7 +1909,8 @@ main > section > .section-inner {
       30px
       20px !important;
 
-    gap: 22px !important;
+    gap:
+      22px !important;
 
     border-radius:
       22px !important;
@@ -1514,12 +1934,16 @@ main > section > .section-inner {
     grid-template-columns:
       minmax(0, 1fr);
 
-    width: 100%;
+    width:
+      100%;
   }
 
   .cta-action {
-    justify-content: flex-start;
+    justify-content:
+      flex-start;
   }
+
+  /* FOOTER MOBILE */
 
   .footer-inner {
     padding-top:
@@ -1528,44 +1952,72 @@ main > section > .section-inner {
     padding-bottom:
       20px !important;
 
-    gap: 22px !important;
+    gap:
+      22px !important;
   }
 
   .footer-main {
     grid-template-columns:
       minmax(0, 1fr);
 
-    gap: 20px !important;
+    gap:
+      20px !important;
   }
 
   .footer-brand,
   .footer-nav,
   .footer-contact {
-    width: 100% !important;
+    width:
+      100% !important;
 
-    justify-self: stretch;
+    justify-self:
+      stretch;
 
-    align-items: center !important;
+    align-items:
+      center !important;
 
-    text-align: center;
+    text-align:
+      center;
   }
 
   .footer-description {
-    max-width: 42ch;
+    max-width:
+      42ch;
+
+    margin-inline:
+      auto;
+  }
+
+  .footer-nav {
+    justify-self:
+      center;
+  }
+
+  .footer-contact {
+    justify-self:
+      center;
+
+    text-align:
+      center;
   }
 
   .footer-bottom {
-    flex-direction: column;
+    flex-direction:
+      column;
 
-    align-items: center !important;
+    align-items:
+      center !important;
 
-    text-align: center;
+    text-align:
+      center;
 
-    gap: 5px !important;
+    gap:
+      5px !important;
   }
 
   .Ellipse {
-    display: none !important;
+    display:
+      none !important;
   }
 }
 
@@ -1580,26 +2032,33 @@ main > section > .section-inner {
     --section-space: 52px;
   }
 
-  .HeroSection > .Frame:last-child {
+  .HeroSection
+    > .Frame:last-child {
     aspect-ratio: 1 / 1;
   }
 
   .HeroBadge {
-    width: 132px !important;
+    width:
+      132px !important;
 
-    min-height: 86px;
+    min-height:
+      86px;
 
-    right: 10px !important;
+    right:
+      10px !important;
 
-    bottom: 10px !important;
+    bottom:
+      10px !important;
   }
 
-  .section-heading > .Frame:first-child {
+  .section-heading
+    > .Frame:first-child {
     padding:
       6px
       14px !important;
   }
 
+  .AUniODoRigorCientFicoComAEnergiaJovem,
   .SoluEsCompletasCriadasParaElevarSeuPadrO,
   .VislumbreDeMomentosReaisQueNutrimosEOrganizamos,
   .TiposDeCoffees,
@@ -1608,6 +2067,52 @@ main > section > .section-inner {
   .PorQueEscolherANutriaOParaSeuProjeto {
     font-size:
       30px !important;
+  }
+
+  /*
+    Em telas muito pequenas, os cards
+    UFCSPA e Focado ficam empilhados.
+  */
+
+  #quem-somos
+    > .section-inner
+    > .Frame:last-child
+    > .Frame:last-child {
+    display:
+      flex !important;
+
+    flex-direction:
+      column !important;
+
+    align-items:
+      stretch !important;
+
+    gap:
+      14px !important;
+  }
+
+  #quem-somos
+    > .section-inner
+    > .Frame:last-child
+    > .Frame:last-child
+    > .Frame {
+    width:
+      100% !important;
+
+    height:
+      auto !important;
+
+    min-height:
+      0 !important;
+
+    flex:
+      none !important;
+
+    align-items:
+      center !important;
+
+    text-align:
+      center;
   }
 
   .coffee-card-body {
@@ -1619,6 +2124,7 @@ main > section > .section-inner {
   }
 
   .footer-brand-title {
-    font-size: 20px;
+    font-size:
+      20px;
   }
 }
