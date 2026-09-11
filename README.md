@@ -10,8 +10,6 @@
 
 </div>
 
----
-
 ## Sobre o projeto
 
 Este projeto foi desenvolvido pelo **Time Café** (o melhor time) durante o processo trainee da **Compact JR.**, Empresa Júnior da UFSM.
@@ -25,13 +23,3 @@ A proposta foi criar uma landing page para a **NutriAção**, Empresa Júnior de
 - JavaScript
 - GSAP
 - Git & GitHub
-
-## Time Café
-
----
-
-<div align="center">
-
-### Feito pelo Time Café ☕💻
-
-</div>
