@@ -1,0 +1,31 @@
+/* Contornos mais visíveis, mantendo a paleta e as dimensões dos cards. */
+:root {
+  --card-outline: #97a58e;
+  --card-outline-rose: #c78f86;
+  --section-divider: #bcc6b4;
+}
+
+.card-outline {
+  outline: 2px solid var(--card-outline);
+  outline-offset: -2px;
+}
+
+.card-outline-rose {
+  outline-color: var(--card-outline-rose);
+}
+
+/* Divisórias internas: não acrescentam altura nem mudam os espaçamentos. */
+main > section {
+  position: relative;
+}
+
+main > section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 80px;
+  right: 80px;
+  border-top: 2px solid var(--section-divider);
+  z-index: 1;
+  pointer-events: none;
+}
