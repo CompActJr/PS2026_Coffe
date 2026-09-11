@@ -537,3 +537,367 @@ main > section:nth-of-type(6) > .Frame > .Frame:nth-child(n+2) > .Frame > .Quote
     grid-column: auto;
   }
 }
+
+/* Selos de secao acima do conteudo */
+#quem-somos > .Frame,
+#diferenciais > .Frame {
+  position: relative;
+  padding-top: 176px !important;
+}
+
+#quem-somos > .Frame > .Frame:last-child > .Frame:first-child > .Frame:first-child,
+#diferenciais > .Frame > .Frame:first-child > .Frame:first-child > .Frame:first-child {
+  position: absolute;
+  top: 112px;
+  left: 50%;
+  width: max-content !important;
+  transform: translateX(-50%);
+}
+
+/* Como Funciona: tres cards com a mesma altura no desktop */
+@media (min-width: 701px) {
+  main > section:nth-of-type(5) > .Frame > .Frame:last-child {
+    align-items: stretch;
+  }
+
+  main > section:nth-of-type(5) > .Frame > .Frame:last-child > .Frame {
+    height: 260px !important;
+    min-height: 260px;
+  }
+
+  /* Depoimentos: ritmo uniforme e leitura mais compacta */
+  main > section:nth-of-type(6) > .Frame > .Frame:nth-child(n+2) > .Frame {
+    height: 300px !important;
+    min-height: 300px;
+  }
+
+  main > section:nth-of-type(6) > .Frame > .Frame:nth-child(n+2) > .Frame > div:nth-child(2) {
+    font-size: 15px !important;
+    line-height: 24px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  #quem-somos > .Frame,
+  #diferenciais > .Frame {
+    padding-top: 136px !important;
+  }
+
+  #quem-somos > .Frame > .Frame:last-child > .Frame:first-child > .Frame:first-child,
+  #diferenciais > .Frame > .Frame:first-child > .Frame:first-child > .Frame:first-child {
+    top: 72px;
+  }
+
+  main > section:nth-of-type(5) > .Frame > .Frame:last-child > .Frame,
+  main > section:nth-of-type(6) > .Frame > .Frame:nth-child(n+2) > .Frame {
+    height: auto !important;
+    min-height: 0;
+  }
+}
+
+/* Quem Somos: rotulo simples, como os demais cabecalhos */
+#quem-somos > .Frame > .Frame:last-child > .Frame:first-child > .Frame:first-child {
+  padding: 0 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+
+#quem-somos > .Frame > .Frame:last-child > .Frame:first-child > .Frame:first-child .QuemSomos {
+  color: #e59892 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  letter-spacing: 0;
+}
+
+/* Rodape: tres areas estaveis e contatos sem sobreposicao */
+.footer > .Frame {
+  padding-top: 64px !important;
+  padding-bottom: 32px !important;
+  gap: 48px !important;
+}
+
+.footer > .Frame > .Frame:first-child {
+  display: grid !important;
+  grid-template-columns: minmax(150px, 1fr) minmax(300px, 420px) minmax(150px, 1fr) !important;
+  align-items: start;
+  gap: 48px;
+}
+
+.footer > .Frame > .Frame:first-child > .Frame {
+  width: 100% !important;
+  min-width: 0;
+}
+
+.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) {
+  align-items: center !important;
+  text-align: center;
+}
+
+.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:first-child {
+  width: 100% !important;
+  height: auto !important;
+  padding: 0 !important;
+  justify-content: center !important;
+}
+
+.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:first-child img {
+  width: 132px !important;
+  height: 74px !important;
+}
+
+.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) {
+  display: grid !important;
+  grid-template-columns: 30px minmax(0, 1fr);
+  width: 100% !important;
+  height: auto !important;
+  padding-top: 12px;
+  gap: 14px 10px !important;
+  align-items: center !important;
+  text-align: left;
+}
+
+.footer .InstagramLogoIconFreePng1,
+.footer .WhatsappForBusinessIconFreePngRemovebgPreview21,
+.footer .EmailIconForYourWebsiteMobilePresentationAndLogoDesignFreeVectorRemovebgPreview1 {
+  width: 28px !important;
+  height: 28px !important;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.footer .InstagramLogoIconFreePng1 {
+  background-image: url("../img/icone-instagram.png");
+}
+
+.footer .WhatsappForBusinessIconFreePngRemovebgPreview21 {
+  background-image: url("../img/icone-whatsapp.png");
+}
+
+.footer .EmailIconForYourWebsiteMobilePresentationAndLogoDesignFreeVectorRemovebgPreview1 {
+  background-image: url("../img/icone-email.png");
+}
+
+.footer .InstagramLogoIconFreePng1 svg,
+.footer .WhatsappForBusinessIconFreePngRemovebgPreview21 svg,
+.footer .EmailIconForYourWebsiteMobilePresentationAndLogoDesignFreeVectorRemovebgPreview1 svg {
+  display: none;
+}
+
+.footer > .Frame > .Frame:last-child {
+  width: 100% !important;
+  padding-top: 20px !important;
+}
+
+@media (max-width: 700px) {
+  .footer > .Frame > .Frame:first-child {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 32px;
+  }
+
+  .footer > .Frame > .Frame:first-child > .Frame:nth-child(2) {
+    order: -1;
+  }
+
+  .footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) {
+    max-width: 280px;
+  }
+}
+
+/* Quem Somos segue o estilo textual das demais etiquetas */
+#quem-somos > .Frame > .Frame:last-child > .Frame:first-child > .Frame:first-child {
+  padding: 0 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+
+#quem-somos .QuemSomos {
+  color: #e59892 !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  letter-spacing: 0.02em;
+}
+
+/* Rodape: tres areas claras, sem sobreposicao */
+.footer > .Frame {
+  display: block !important;
+  padding-top: 64px !important;
+  padding-bottom: 28px !important;
+}
+
+.footer > .Frame > .Frame:first-child {
+  display: grid !important;
+  grid-template-columns: minmax(150px, 1fr) minmax(280px, 1.4fr) minmax(150px, 1fr);
+  align-items: start !important;
+  gap: 64px;
+  width: 100% !important;
+}
+
+.footer > .Frame > .Frame:first-child > .Frame {
+  width: auto !important;
+  min-width: 0 !important;
+}
+
+.footer > .Frame > .Frame:first-child > .Frame:first-child,
+.footer > .Frame > .Frame:first-child > .Frame:last-child {
+  gap: 14px !important;
+  padding-top: 8px;
+}
+
+.footer > .Frame > .Frame:first-child > .Frame:first-child > .Frame,
+.footer > .Frame > .Frame:first-child > .Frame:last-child > .Frame {
+  height: auto !important;
+  gap: 9px !important;
+}
+
+.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center !important;
+  gap: 14px !important;
+  text-align: center;
+}
+
+.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:first-child {
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+  justify-content: center !important;
+}
+
+.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:first-child img {
+  width: 132px !important;
+  height: 74px !important;
+}
+
+.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) {
+  display: grid !important;
+  grid-template-columns: 30px minmax(0, 1fr) 30px minmax(0, 1fr) 30px minmax(0, 1fr);
+  align-items: center !important;
+  width: 100% !important;
+  height: auto !important;
+  gap: 8px 10px !important;
+  text-align: left;
+}
+
+.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) > [data-svg-wrapper] {
+  width: 30px;
+  height: 30px;
+}
+
+.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) > [data-svg-wrapper] svg {
+  display: none;
+}
+
+.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) > [data-svg-wrapper]:first-child {
+  background: url("../img/icone-instagram.png") center / contain no-repeat;
+}
+
+.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) > [data-svg-wrapper]:nth-of-type(2) {
+  background: url("../img/icone-whatsapp.png") center / contain no-repeat;
+}
+
+.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) > [data-svg-wrapper]:nth-of-type(3) {
+  background: url("../img/icone-email.png") center / contain no-repeat;
+}
+
+.footer > .Frame > .Frame:last-child {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin-top: 48px;
+  padding-top: 20px !important;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 800px) {
+  .footer > .Frame > .Frame:first-child {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 36px 28px;
+  }
+
+  .footer > .Frame > .Frame:first-child > .Frame:nth-child(2) {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) {
+    grid-template-columns: 30px minmax(0, 1fr) 30px minmax(0, 1fr);
+  }
+
+  .footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) > [data-svg-wrapper]:nth-of-type(3),
+  .footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) > .EjnutriacaoGmailCom {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 520px) {
+  .footer > .Frame > .Frame:first-child {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .footer > .Frame > .Frame:first-child > .Frame:nth-child(2) {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) {
+    grid-template-columns: 30px minmax(0, 1fr);
+    width: fit-content !important;
+    max-width: 100%;
+  }
+
+  .footer > .Frame > .Frame:last-child {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px;
+  }
+}
+
+/* Icones de contato: seletores por classe evitam a ordem do HTML exportado */
+.footer .InstagramLogoIconFreePng1 {
+  background-image: url("../img/icone-instagram.png") !important;
+}
+
+.footer .WhatsappForBusinessIconFreePngRemovebgPreview21 {
+  background-image: url("../img/icone-whatsapp.png") !important;
+}
+
+.footer .EmailIconForYourWebsiteMobilePresentationAndLogoDesignFreeVectorRemovebgPreview1 {
+  background-image: url("../img/icone-email.png") !important;
+}
+
+/* Quem Somos deve ser apenas um rotulo, sem estilo de card */
+#quem-somos > .Frame > .Frame:last-child > .Frame:first-child > .Frame:first-child {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* Quem Somos identico ao rotulo Nossos Servicos */
+#quem-somos > .Frame > .Frame:last-child > .Frame:first-child > .Frame:first-child {
+  display: inline-flex !important;
+  width: max-content !important;
+  padding: 6px 16px !important;
+  background: #fbf3f1 !important;
+  border: 0 !important;
+  border-radius: 100px !important;
+  box-shadow: none !important;
+  position: absolute;
+}
+
+#quem-somos .QuemSomos {
+  color: #e59892 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0 !important;
+}
+
+#quem-somos > .Frame > .Frame:last-child > .Frame:first-child > .Frame:first-child > .QuemSomos {
+  text-transform: uppercase !important;
+}
