@@ -1,10 +1,18 @@
-/* Base visual e ajustes responsivos da página */
-:root {
+﻿:root {
   --bg: #faf7f2;
-  --line: #e9e3da;
-  --section-divider: #cccccc;
-  --page-gutter: clamp(16px, 5.55vw, 80px);
-  --section-space: clamp(56px, 8.33vw, 120px);
+  --text: #2a302b;
+  --muted: #5a615c;
+  --green: #5e7e62;
+  --pink: #e59892;
+  --pink-soft: #fbf3f1;
+  --line: #dedfdd;
+  --card-line: #e9e3da;
+  --section-light: #ffffff;
+  --section-soft: #fbf3f1;
+  --footer-bg: #ffffff;
+  --page-gutter: clamp(20px, 5.55vw, 80px);
+  --section-space: clamp(72px, 8vw, 120px);
+  --content-max: 1440px;
 }
 
 * {
@@ -13,25 +21,30 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
+  overflow-x: hidden;
   background: var(--bg);
-  color: #2a302b;
+  color: var(--text);
   font-family: "Figtree", "Segoe UI", sans-serif;
 }
 
-img {
-  display: block;
-  max-width: 100%;
-}
-
+img,
 svg {
   display: block;
 }
 
+img {
+  max-width: 100%;
+}
+
 .page-shell {
+  width: 100%;
+  max-width: none;
+  margin: 0;
   overflow-wrap: anywhere;
 }
 
@@ -41,13 +54,29 @@ svg {
   min-width: 0;
 }
 
-/* Ajustes que complementam os estilos inline exportados no HTML */
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.navbar {
+  width: 100%;
+  background: #ffffff;
+  border-bottom: 1px solid var(--card-line);
+}
+
 .Navbar {
+  display: flex !important;
+  width: 100% !important;
+  max-width: var(--content-max);
   min-height: 90px;
-  height: auto;
-  padding-block: 16px;
-  flex-wrap: wrap;
+  height: auto !important;
+  margin-inline: auto;
+  padding: 16px var(--page-gutter) !important;
   gap: 16px;
+  align-items: center !important;
+  flex-wrap: wrap;
+  background: transparent !important;
+  border-bottom: 0 !important;
 }
 
 .BrandHeader {
@@ -59,115 +88,41 @@ svg {
   object-fit: contain;
 }
 
-.navbar,
-.navbar > div,
-.footer > div,
-.footer > div > div:last-child {
-  border-color: var(--section-divider);
-}
-
 [data-svg-wrapper] {
   flex-shrink: 0;
 }
 
-/* Divisórias suaves entre as seções */
-main > section {
+/* =========================================================
+   HERO
+   ========================================================= */
+
+main > .HeroSection {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100% !important;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding: clamp(72px, 7vw, 100px) var(--page-gutter) !important;
+  gap: clamp(32px, 4vw, 56px) !important;
+  align-items: center !important;
   position: relative;
+  isolation: isolate;
+  background: transparent !important;
 }
 
-main > section::before {
+main > .HeroSection::before {
   content: "";
   position: absolute;
-  top: 0;
+  inset-block: 0;
   left: 50%;
-  z-index: 1;
-  width: calc(100% - var(--page-gutter) - var(--page-gutter));
-  height: 2px;
-  border-radius: 999px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    var(--section-divider) 15%,
-    var(--section-divider) 85%,
-    transparent
-  );
+  z-index: -1;
+  width: 100vw;
+  background: var(--section-soft);
   transform: translateX(-50%);
   pointer-events: none;
 }
 
-/* Tablet */
-@media (max-width: 1100px) {
-  .HeroSection,
-  #quem-somos > .Frame,
-  #diferenciais > .Frame {
-    flex-direction: column;
-  }
-
-  .HeroSection > .Frame,
-  #quem-somos > .Frame > .Frame,
-  #diferenciais > .Frame > .Frame {
-    width: 100%;
-  }
-}
-
-/* Celular */
-@media (max-width: 760px) {
-  main > section::before {
-    width: calc(100% - 32px);
-  }
-
-  .Navbar {
-    align-items: flex-start;
-  }
-
-  .BrandHeader {
-    width: 100%;
-  }
-
-  main > section > .Frame {
-    gap: 32px;
-  }
-}
-
-/* Layout fluido para substituir as dimensões fixas do exportador */
-body {
-  overflow-x: hidden;
-}
-
-.page-shell {
-  width: 100%;
-  margin: 0 auto;
-}
-
-.Navbar,
-main > .HeroSection,
-main > section > .Frame,
-.footer > .Frame {
-  width: 100% !important;
-  max-width: 1440px;
-  margin-inline: auto;
-  padding-inline: var(--page-gutter) !important;
-}
-
-.Navbar {
-  display: flex !important;
-}
-
-main > .HeroSection,
-main > section > .Frame,
-.footer > .Frame {
-  box-sizing: border-box;
-}
-
-.HeroSection {
-  display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: center !important;
-}
-
-.HeroSection > .Frame,
-#quem-somos > .Frame > .Frame,
-#diferenciais > .Frame > .Frame {
+.HeroSection > .Frame {
   width: 100% !important;
   max-width: none;
 }
@@ -177,6 +132,7 @@ main > section > .Frame,
 }
 
 .HeroSection > .Frame:last-child {
+  position: relative;
   width: 100% !important;
   height: auto !important;
   aspect-ratio: 624 / 540;
@@ -188,716 +144,1481 @@ main > section > .Frame,
   object-fit: cover;
 }
 
-.HeroSection > .Frame:last-child > .Frame {
+.AlimenteOSucessoDoSeuEventoComNutriaO span {
+  font-size: clamp(42px, 3.9vw, 56px) !important;
+  line-height: 1.15 !important;
+}
+
+.TransformamosConhecimentoEmSoluEsQueFazemADiferenAANutriaOOfereceServiOsEmNutriOComQualidadeTCnicaEExcelNciaProfissionalDesdeCoffeeBreaksAtRotulagemNutricionalEElaboraODeFichasTCnicasTudoIssoComAInovaOEOConhecimentoDeUmaEquipeAcadMicaPreparadaParaEntregarOsMelhoresResultados {
+  font-size: clamp(16px, 1.3vw, 18px) !important;
+  line-height: 1.6 !important;
+}
+
+.HeroBadge {
+  position: absolute !important;
   right: 12px !important;
   bottom: 12px !important;
   left: auto !important;
   top: auto !important;
+
+  display: flex !important;
+
+  width: 176px !important;
+  min-height: 116px;
+  height: auto !important;
+
+  padding: 18px 20px !important;
+
+  flex-direction: column;
+
+  align-items: center !important;
+  justify-content: center !important;
+
+  gap: 8px !important;
+
+  text-align: center;
+
+  background: var(--pink) !important;
+
+  border-radius: 16px !important;
 }
 
-#quem-somos > .Frame,
-#diferenciais > .Frame {
+.HeroBadgeValue {
+  width: 100%;
+
+  color: #ffffff;
+
+  font-family: "Fraunces", Georgia, serif;
+
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+
+  text-align: center;
+}
+
+.HeroBadgeLabel {
+  width: 100%;
+
+  color: #fff3f1;
+
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+
+  letter-spacing: 0.03em;
+
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   SEÇÕES FULL-WIDTH + DIVISORES
+   ========================================================= */
+
+main > section {
+  position: relative;
+
+  width: 100%;
+
+  margin: 0;
+
+  border-radius: 0;
+}
+
+main > section.section-light {
+  background: var(--section-light);
+}
+
+main > section.section-soft {
+  background: var(--section-soft);
+}
+
+/* Barra horizontal simples entre seções */
+
+main > section::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 50%;
+
+  z-index: 3;
+
+  width: min(
+    1280px,
+    calc(100% - (2 * var(--page-gutter)))
+  );
+
+  height: 1px;
+
+  background: var(--line);
+
+  transform: translateX(-50%);
+
+  pointer-events: none;
+}
+
+main > section > .section-inner {
+  position: relative;
+
+  z-index: 1;
+
+  display: flex !important;
+
+  width: 100% !important;
+  max-width: var(--content-max);
+
+  height: auto !important;
+
+  margin-inline: auto !important;
+
+  padding:
+    var(--section-space)
+    var(--page-gutter) !important;
+
+  background: transparent !important;
+}
+
+#servicos > .section-inner,
+#portfolio > .section-inner,
+#coffees > .section-inner,
+#como-funciona > .section-inner,
+#contato > .section-inner {
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+#servicos > .section-inner,
+#portfolio > .section-inner,
+#como-funciona > .section-inner {
+  gap: clamp(44px, 4.4vw, 64px) !important;
+}
+
+#coffees > .section-inner {
+  gap: 40px !important;
+}
+
+/* =========================================================
+   QUEM SOMOS / DIFERENCIAIS
+   ========================================================= */
+
+#quem-somos > .section-inner,
+#diferenciais > .section-inner {
   display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: clamp(48px, 5.5vw, 80px) !important;
+
+  align-items: center !important;
 }
 
-#quem-somos > .Frame > .Frame:first-child {
-  max-width: 515px;
-}
-
-#quem-somos > .Frame > .Frame:first-child img {
+#quem-somos > .section-inner > .Frame,
+#diferenciais > .section-inner > .Frame {
   width: 100% !important;
-  height: 100% !important;
-  object-fit: cover;
-}
 
-#servicos > .Frame > .Frame:last-child,
-#portfolio > .Frame > .Frame:last-child,
-main > section:nth-of-type(5) > .Frame > .Frame:last-child {
-  display: grid !important;
-  width: 100% !important;
-  height: auto !important;
-  align-items: stretch;
-}
-
-#servicos > .Frame > .Frame:last-child {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-#portfolio > .Frame > .Frame:last-child {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-#servicos > .Frame > .Frame:last-child > .Frame,
-#portfolio > .Frame > .Frame:last-child > .Frame {
-  width: 100% !important;
-  min-width: 0;
-}
-
-#servicos img,
-#portfolio img {
-  width: 100% !important;
-  height: auto !important;
-  aspect-ratio: 406 / 353;
-  object-fit: cover;
-}
-
-#servicos > .Frame > .Frame:last-child > .Frame > .Frame,
-#portfolio > .Frame > .Frame:last-child > .Frame > .Frame {
-  width: 100% !important;
-  min-width: 0;
-}
-
-main > section:nth-of-type(4) > .Frame > .Frame,
-main > section:nth-of-type(6) > .Frame > .Frame {
-  display: grid !important;
-  width: 100% !important;
-  height: auto !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: stretch;
-}
-
-main > section:nth-of-type(4) > .Frame > .Frame > .Frame,
-main > section:nth-of-type(6) > .Frame > .Frame > .Frame {
-  width: 100% !important;
-  min-width: 0;
-}
-
-main > section:nth-of-type(5) > .Frame > .Frame:last-child {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 40px;
-}
-
-main > section:nth-of-type(5) > .Frame > .Frame:last-child > .Frame {
-  width: 100% !important;
-  min-width: 0;
-  height: auto !important;
-}
-
-#diferenciais > .Frame > .Frame:last-child {
-  width: 100% !important;
-  max-width: 624px;
-}
-
-#diferenciais > .Frame > .Frame:last-child > .Frame:last-child {
-  width: 100% !important;
   max-width: none;
 }
 
-#contato > .Frame > .Frame {
-  width: 100% !important;
+#quem-somos > .section-inner > .Frame:first-child {
+  max-width: 515px;
+
   height: auto !important;
-  min-height: 227px;
+
+  aspect-ratio: 515 / 500;
+
+  justify-self: center;
 }
 
-.footer > .Frame > .Frame:first-child {
-  display: grid !important;
-  grid-template-columns: minmax(140px, 1fr) minmax(0, 483px) minmax(140px, 1fr);
+#quem-somos > .section-inner > .Frame:first-child img {
   width: 100% !important;
-  gap: 32px;
+
+  height: 100% !important;
+
+  object-fit: cover;
 }
 
-.footer > .Frame > .Frame:first-child > .Frame {
-  width: auto !important;
+#diferenciais > .section-inner > .Frame:last-child {
+  width: 100% !important;
+
+  max-width: 624px;
+
+  justify-self: end;
+}
+
+#diferenciais
+  > .section-inner
+  > .Frame:last-child
+  > .Frame:last-child {
+  width: 100% !important;
+
+  max-width: none;
+}
+
+/* =========================================================
+   CARDS UFCSPA / FOCADO
+   ========================================================= */
+
+#quem-somos
+  > .section-inner
+  > .Frame:last-child
+  > .Frame:last-child
+  > .Frame {
+  background: #ffffff !important;
+
+  border:
+    1px solid
+    rgba(42, 48, 43, 0.1) !important;
+
+  box-shadow:
+    0 4px 10px rgba(42, 48, 43, 0.05),
+    0 10px 24px rgba(42, 48, 43, 0.07) !important;
+}
+
+/* =========================================================
+   CABEÇALHOS DE SEÇÃO
+   ========================================================= */
+
+.section-heading {
+  display: flex !important;
+
+  width: 100% !important;
+
+  max-width: 940px;
+
+  margin-inline: auto;
+
+  padding: 0 !important;
+
+  flex-direction: column !important;
+
+  align-items: center !important;
+
+  justify-content: flex-start !important;
+
+  gap: 16px !important;
+
+  text-align: center;
+}
+
+.section-heading > .Frame:first-child {
+  min-height: 30px;
+
+  margin: 0 !important;
+
+  padding:
+    7px
+    18px !important;
+
+  align-items: center !important;
+
+  justify-content: center !important;
+}
+
+.NossosServiOs,
+.NossoTrabalho,
+.ComoFunciona,
+.Depoimentos,
+.NossosDiferenciais,
+.QuemSomos {
+  font-size: 13px !important;
+
+  line-height: 16px !important;
+}
+
+.SoluEsCompletasCriadasParaElevarSeuPadrO,
+.VislumbreDeMomentosReaisQueNutrimosEOrganizamos,
+.TrSPassosSimplesParaOSeuProjetoNascer,
+.OCarinhoDeQuemJContratouNossoTime,
+.PorQueEscolherANutriaOParaSeuProjeto {
+  font-size:
+    clamp(34px, 3vw, 40px) !important;
+
+  line-height: 1.2 !important;
+}
+
+.SoluEsCompletasCriadasParaElevarSeuPadrO span,
+.VislumbreDeMomentosReaisQueNutrimosEOrganizamos span,
+.TiposDeCoffees span,
+.TrSPassosSimplesParaOSeuProjetoNascer span,
+.OCarinhoDeQuemJContratouNossoTime span,
+.PorQueEscolherANutriaOParaSeuProjeto span {
+  font-size: inherit !important;
+
+  line-height: inherit !important;
+}
+
+.DoCateringPersonalizadoConformidadeLegalDosSeusAlimentosConheAAsTrSFrentesPrincipaisDeAtuaODaNutriaO,
+.EspreiteUmPoucoDeNossaDedicaOVisualEGastronMicaNosLtimosEventosAtendidosEmPortoAlegre,
+.SaibaTudoQueOferecemosNoNossoPrincipalServiO {
+  width: min(680px, 100%) !important;
+
+  max-width: 680px;
+
+  line-height: 1.6 !important;
+}
+
+.TiposDeCoffees {
+  font-size:
+    clamp(34px, 3vw, 40px) !important;
+
+  line-height: 1.2 !important;
+}
+
+/* =========================================================
+   SERVIÇOS
+   ========================================================= */
+
+.services-grid {
+  display: grid !important;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  width: 100% !important;
+
+  height: auto !important;
+
+  gap: 24px !important;
+
+  align-items: stretch !important;
+}
+
+.services-grid > .Frame {
+  width: 100% !important;
+
   min-width: 0;
 }
 
-.footer > .Frame img {
-  max-width: 100%;
+.services-grid > .Frame > .Frame {
+  width: 100% !important;
+
+  height: 100% !important;
+
+  min-width: 0;
+
+  background: #ffffff !important;
+
+  border:
+    1px solid
+    rgba(45, 53, 46, 0.1) !important;
+
+  box-shadow:
+    0 8px 24px
+    rgba(45, 53, 46, 0.1) !important;
+}
+
+.IdealParaProdutosAlimentCiosQuePrecisamDeUmRTuloCompletoEAdequadoLegislaO {
+  width: 100% !important;
+}
+
+#servicos img {
+  width: 100% !important;
+
+  height: auto !important;
+
+  aspect-ratio: 406 / 353;
+
+  object-fit: cover;
+}
+
+/* =========================================================
+   PORTFÓLIO
+   ========================================================= */
+
+.portfolio-grid {
+  display: grid !important;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  width: 100% !important;
+
+  height: auto !important;
+
+  gap: 24px !important;
+
+  align-items: stretch !important;
+}
+
+.portfolio-grid > .Frame {
+  width: 100% !important;
+
+  min-width: 0;
+
+  height: 100% !important;
+
+  background: #ffffff !important;
+
+  border:
+    1px solid
+    rgba(45, 53, 46, 0.1) !important;
+
+  box-shadow:
+    0 8px 24px
+    rgba(45, 53, 46, 0.1) !important;
+}
+
+.portfolio-grid > .Frame > .Frame {
+  width: 100% !important;
+
+  height: auto !important;
+}
+
+#portfolio img {
+  width: 100% !important;
+
+  height: auto !important;
+
+  aspect-ratio: 406 / 353;
+
+  object-fit: cover;
+}
+
+/* =========================================================
+   COFFEES
+   ========================================================= */
+
+.coffee-row {
+  display: grid !important;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  width: 100% !important;
+
+  height: auto !important;
+
+  gap: 24px !important;
+
+  align-items: stretch !important;
+}
+
+.coffee-card {
+  display: flex !important;
+
+  width: 100% !important;
+
+  height: auto !important;
+
+  min-height: 168px;
+
+  flex: none !important;
+
+  overflow: hidden;
+
+  background: #ffffff !important;
+
+  border:
+    1px solid
+    rgba(45, 53, 46, 0.1) !important;
+
+  border-radius: 20px !important;
+
+  box-shadow:
+    0 4px 14px
+    rgba(45, 53, 46, 0.07) !important;
+}
+
+.coffee-card-body {
+  display: grid !important;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    32px;
+
+  width: 100% !important;
+
+  height: auto !important;
+
+  min-height: 168px;
+
+  flex: none !important;
+
+  padding: 24px !important;
+
+  gap: 20px !important;
+
+  align-items: start !important;
+
+  position: static !important;
+}
+
+.coffee-card-copy {
+  grid-column: 1;
+  grid-row: 1;
+
+  width: 100% !important;
+
+  max-width: 48ch;
+
+  gap: 10px !important;
+}
+
+.coffee-card-copy > div:first-child {
+  font-size: 19px !important;
+
+  line-height: 1.25 !important;
+}
+
+.coffee-card-copy > div:last-child {
+  max-width: 46ch;
+
+  font-size: 14px !important;
+
+  line-height: 1.55 !important;
+}
+
+#coffees .PlanIcon {
+  grid-column: 2;
+  grid-row: 1;
+
+  position: static !important;
+
+  width: 32px !important;
+
+  height: 32px !important;
+
+  justify-self: end;
+
+  align-self: start;
+}
+
+/* =========================================================
+   COMO FUNCIONA
+   ========================================================= */
+
+.steps-grid {
+  display: grid !important;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  width: 100% !important;
+
+  height: auto !important;
+
+  gap: 32px !important;
+
+  align-items: stretch !important;
+}
+
+.steps-grid > .Frame {
+  width: 100% !important;
+
+  height: auto !important;
+
+  min-height: 260px;
+
+  background: #ffffff !important;
+
+  border:
+    1px solid
+    rgba(45, 53, 46, 0.1) !important;
+
+  box-shadow:
+    0 8px 24px
+    rgba(45, 53, 46, 0.1) !important;
+}
+
+/* =========================================================
+   DEPOIMENTOS
+   ========================================================= */
+
+#depoimentos > .section-inner {
+  display: grid !important;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  width: 100% !important;
+
+  gap:
+    48px
+    24px !important;
+
+  align-items: stretch !important;
+}
+
+#depoimentos
+  > .section-inner
+  > .section-heading {
+  grid-column: 1 / -1;
+}
+
+#depoimentos
+  > .section-inner
+  > .Frame:nth-child(n + 2) {
+  display: contents !important;
+}
+
+#depoimentos
+  > .section-inner
+  > .Frame:nth-child(n + 2)
+  > .Frame {
+  width: 100% !important;
+
+  height: auto !important;
+
+  min-height: 240px;
+
+  padding: 32px !important;
+
+  gap: 16px !important;
+
+  background: #ffffff !important;
+
+  border:
+    1px solid
+    rgba(45, 53, 46, 0.1) !important;
+
+  border-radius: 20px !important;
+
+  box-shadow:
+    0 8px 24px
+    rgba(45, 53, 46, 0.1) !important;
+}
+
+/* =========================================================
+   DIFERENCIAIS
+   ========================================================= */
+
+#diferenciais
+  > .section-inner
+  > .Frame:last-child {
+  background: var(--green) !important;
+
+  border:
+    1px solid
+    rgba(45, 53, 46, 0.08) !important;
+
+  box-shadow:
+    0 8px 24px
+    rgba(45, 53, 46, 0.1) !important;
+}
+
+/* =========================================================
+   CTA / CONTATO
+   ========================================================= */
+
+#contato > .section-inner {
+  gap: 0 !important;
+}
+
+.contact-card {
+  width: 100% !important;
+
+  height: auto !important;
+
+  min-height: 0 !important;
+
+  padding:
+    clamp(36px, 5vw, 64px) !important;
+
+  gap: 28px !important;
+
+  background: #ffffff !important;
+
+  border:
+    1px solid
+    rgba(42, 48, 43, 0.1) !important;
+
+  border-radius: 28px !important;
+
+  box-shadow:
+    0 8px 18px
+      rgba(45, 53, 46, 0.08),
+    0 20px 42px
+      rgba(45, 53, 46, 0.1) !important;
+}
+
+.ProntoParaTransformarSuaExperiNcia {
+  font-size:
+    clamp(32px, 3.4vw, 44px) !important;
+
+  line-height: 1.12 !important;
+}
+
+.SejaParaOrganizarUmBanqueteDeEncerramentoAcadMicoOuRegularizarAsFichasETabelasDosSeusProdutosNossaEquipeEstProntaParaLheAtender {
+  width:
+    min(640px, 100%) !important;
+
+  line-height: 1.6 !important;
+}
+
+.cta-actions {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  width:
+    min(760px, 100%);
+
+  gap: 12px;
+}
+
+.cta-action {
+  display: flex;
+
+  min-height: 52px;
+
+  padding:
+    12px
+    16px;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  border:
+    1px solid
+    rgba(229, 152, 146, 0.35);
+
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  color: var(--text);
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  text-decoration: none;
+
+  box-shadow:
+    0 4px 10px
+    rgba(45, 53, 46, 0.06);
+
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease;
+}
+
+.cta-action img {
+  width: 24px;
+
+  height: 24px;
+
   object-fit: contain;
 }
 
+.cta-action:hover,
+.cta-action:focus-visible {
+  transform:
+    translateY(-3px);
+
+  background: #ffffff;
+
+  box-shadow:
+    0 10px 22px
+    rgba(45, 53, 46, 0.12);
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer {
+  width: 100%;
+
+  background: var(--footer-bg);
+
+  border-top:
+    1px solid
+    rgba(42, 48, 43, 0.12);
+}
+
+.footer-inner {
+  display: flex !important;
+
+  flex-direction: column;
+
+  width: 100% !important;
+
+  max-width: var(--content-max);
+
+  margin-inline: auto !important;
+
+  padding:
+    36px
+    var(--page-gutter)
+    20px !important;
+
+  gap: 22px !important;
+}
+
+.footer-main {
+  display: grid !important;
+
+  grid-template-columns:
+    minmax(280px, 1.4fr)
+    minmax(140px, 0.55fr)
+    minmax(240px, 1fr);
+
+  width: 100% !important;
+
+  gap:
+    32px
+    56px !important;
+
+  align-items: start !important;
+}
+
+.footer-brand,
+.footer-nav,
+.footer-contact {
+  width: 100% !important;
+}
+
+.footer-brand {
+  display: flex !important;
+
+  flex-direction: column;
+
+  align-items: flex-start !important;
+
+  gap: 8px !important;
+}
+
+.footer-brand-title {
+  color: var(--text);
+
+  font-family:
+    "Fraunces",
+    Georgia,
+    serif;
+
+  font-size: 22px;
+
+  font-weight: 700;
+
+  line-height: 1.2;
+}
+
+.footer-description {
+  max-width: 42ch;
+
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 14px;
+
+  line-height: 1.55;
+}
+
+.footer-nav {
+  display: flex !important;
+
+  flex-direction: column;
+
+  width: max-content !important;
+
+  justify-self: center;
+
+  align-items: flex-start !important;
+
+  justify-content: flex-start !important;
+
+  gap: 9px !important;
+}
+
+.footer-contact {
+  display: flex !important;
+
+  flex-direction: column;
+
+  width: max-content !important;
+
+  max-width: 100%;
+
+  justify-self: end;
+
+  align-items: flex-end !important;
+
+  gap: 9px !important;
+
+  text-align: right;
+}
+
+.footer a {
+  color: #4f5852;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  line-height: 1.45;
+
+  text-decoration: none;
+
+  text-underline-offset: 4px;
+
+  transition:
+    color 160ms ease;
+}
+
+.footer a:hover,
+.footer a:focus-visible {
+  color: var(--green);
+
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  display: flex !important;
+
+  width: 100% !important;
+
+  padding-top: 16px !important;
+
+  align-items: center !important;
+
+  justify-content: space-between !important;
+
+  gap:
+    12px
+    24px !important;
+
+  border-top:
+    1px solid
+    rgba(42, 48, 43, 0.14);
+
+  color: #6c736e;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
 @media (max-width: 1100px) {
-  .HeroSection,
-  #quem-somos > .Frame,
-  #diferenciais > .Frame {
-    grid-template-columns: minmax(0, 1fr);
+  #quem-somos > .section-inner,
+  #diferenciais > .section-inner {
+    grid-template-columns:
+      minmax(0, 1fr);
   }
 
-  .HeroSection > .Frame:first-child,
-  #quem-somos > .Frame > .Frame:first-child,
-  #diferenciais > .Frame > .Frame:last-child {
+  #quem-somos > .section-inner > .Frame:first-child,
+  #diferenciais > .section-inner > .Frame:last-child {
+    width: 100% !important;
+
     max-width: 100%;
+
+    justify-self: stretch;
   }
 
-  #servicos > .Frame > .Frame:last-child,
-  #portfolio > .Frame > .Frame:last-child,
-  main > section:nth-of-type(5) > .Frame > .Frame:last-child {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .services-grid,
+  .portfolio-grid,
+  .steps-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
   }
 
-  .footer > .Frame > .Frame:first-child {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+  #depoimentos > .section-inner {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .footer-main {
+    grid-template-columns:
+      minmax(220px, 1.2fr)
+      minmax(120px, 0.55fr)
+      minmax(200px, 1fr);
+
+    gap:
+      28px
+      36px !important;
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 900px) {
+  main > .HeroSection {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+
+  .HeroSection > .Frame:first-child {
+    max-width: 100%;
+  }
+
+  .coffee-row {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+}
+
+/* =========================================================
+   MOBILE 320–760px
+   ========================================================= */
+
+@media (max-width: 760px) {
   :root {
-    --page-gutter: 16px;
-    --section-space: 56px;
+    --page-gutter:
+      clamp(16px, 5vw, 22px);
+
+    --section-space: 60px;
+  }
+
+  main > section::before {
+    width:
+      calc(
+        100% -
+        (2 * var(--page-gutter))
+      );
   }
 
   .Navbar {
+    min-height: 72px !important;
+
+    padding:
+      14px
+      var(--page-gutter) !important;
+
+    justify-content:
+      flex-start !important;
+  }
+
+  .Navbar > .Frame,
+  .NavbarRight {
+    display: none !important;
+  }
+
+  .BrandHeader {
+    display: flex !important;
+
+    width: auto !important;
+
     align-items: center !important;
+
+    gap: 10px !important;
+  }
+
+  .BrandHeader img {
+    width: 58px !important;
+
+    height: 34px !important;
+  }
+
+  .BrandName,
+  .BrandName span {
+    font-size: 10px !important;
+
+    letter-spacing:
+      0.8px !important;
+  }
+
+  main > .HeroSection {
+    padding-top:
+      52px !important;
+
+    padding-bottom:
+      60px !important;
+
+    gap: 32px !important;
+  }
+
+  .AlimenteOSucessoDoSeuEventoComNutriaO span {
+    font-size:
+      clamp(
+        36px,
+        10vw,
+        44px
+      ) !important;
+
+    line-height:
+      1.1 !important;
+  }
+
+  .TransformamosConhecimentoEmSoluEsQueFazemADiferenAANutriaOOfereceServiOsEmNutriOComQualidadeTCnicaEExcelNciaProfissionalDesdeCoffeeBreaksAtRotulagemNutricionalEElaboraODeFichasTCnicasTudoIssoComAInovaOEOConhecimentoDeUmaEquipeAcadMicaPreparadaParaEntregarOsMelhoresResultados {
+    font-size: 16px !important;
+
+    line-height:
+      1.55 !important;
   }
 
   .HeroSection > .Frame:last-child {
     aspect-ratio: 4 / 3;
   }
 
-  #servicos > .Frame > .Frame:last-child,
-  #portfolio > .Frame > .Frame:last-child,
-  main > section:nth-of-type(4) > .Frame > .Frame,
-  main > section:nth-of-type(5) > .Frame > .Frame:last-child,
-  main > section:nth-of-type(6) > .Frame > .Frame {
-    grid-template-columns: minmax(0, 1fr);
+  .HeroBadge {
+    width: 142px !important;
+
+    min-height: 92px;
+
+    padding:
+      13px
+      14px !important;
+
+    gap: 5px !important;
   }
 
-  #servicos > .Frame > .Frame:last-child,
-  #portfolio > .Frame > .Frame:last-child {
-    gap: 24px;
+  .HeroBadgeValue {
+    font-size: 27px;
   }
 
-  .footer > .Frame > .Frame:first-child {
-    grid-template-columns: minmax(0, 1fr);
+  .HeroBadgeLabel {
+    font-size: 10px;
   }
 
-  .footer > .Frame > .Frame:first-child > .Frame {
-    justify-self: start;
-  }
-}
+  main
+    > section
+    > .section-inner {
+    padding-top:
+      var(--section-space) !important;
 
-@media (max-width: 440px) {
-  .HeroSection > .Frame:last-child {
-    aspect-ratio: 1;
+    padding-bottom:
+      var(--section-space) !important;
   }
 
-  .HeroSection > .Frame:last-child > .Frame {
-    width: 156px !important;
-    padding: 16px !important;
-  }
-}
-
-@media (max-width: 700px) {
-  [style*="width: 680px"],
-  [style*="width: 640px"],
-  [style*="width: 554px"],
-  [style*="width: 552px"],
-  [style*="width: 548px"] {
-    width: 100% !important;
+  .section-heading {
     max-width: 100%;
-  }
-}
 
-@media (max-width: 700px) {
-  .footer > .Frame,
-  .footer > .Frame > .Frame,
-  .footer .Frame {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-  }
-}
-
-@media (max-width: 700px) {
-  .Ellipse {
-    left: auto !important;
-    right: -100px !important;
+    gap: 14px !important;
   }
 
-  .PlanIcon {
-    left: auto !important;
-    right: 20px !important;
+  .SoluEsCompletasCriadasParaElevarSeuPadrO,
+  .VislumbreDeMomentosReaisQueNutrimosEOrganizamos,
+  .TiposDeCoffees,
+  .TrSPassosSimplesParaOSeuProjetoNascer,
+  .OCarinhoDeQuemJContratouNossoTime,
+  .PorQueEscolherANutriaOParaSeuProjeto {
+    font-size:
+      clamp(
+        29px,
+        8vw,
+        34px
+      ) !important;
+
+    line-height:
+      1.16 !important;
   }
-}
 
-html {
-  overflow-x: clip;
-}
+  .DoCateringPersonalizadoConformidadeLegalDosSeusAlimentosConheAAsTrSFrentesPrincipaisDeAtuaODaNutriaO,
+  .EspreiteUmPoucoDeNossaDedicaOVisualEGastronMicaNosLtimosEventosAtendidosEmPortoAlegre,
+  .SaibaTudoQueOferecemosNoNossoPrincipalServiO {
+    font-size:
+      15px !important;
 
-/* Cards: contraste leve sem pesar a composicao */
-#quem-somos > .Frame > .Frame:last-child > .Frame > .Frame,
-#servicos > .Frame > .Frame:last-child > .Frame > .Frame,
-#portfolio > .Frame > .Frame:last-child > .Frame,
-main > section:nth-of-type(4) > .Frame > .Frame > .Frame,
-main > section:nth-of-type(5) > .Frame > .Frame:last-child > .Frame,
-main > section:nth-of-type(6) > .Frame > .Frame > .Frame,
-#diferenciais > .Frame > .Frame:last-child {
-  border: 1px solid rgba(45, 53, 46, 0.08) !important;
-  box-shadow: 0 8px 24px rgba(45, 53, 46, 0.08) !important;
-}
-
-/* Contraste final dos cards */
-#quem-somos > .Frame > .Frame:last-child > .Frame > .Frame,
-#servicos > .Frame > .Frame:last-child > .Frame > .Frame,
-#portfolio > .Frame > .Frame:last-child > .Frame,
-main > section:nth-of-type(4) > .Frame > .Frame > .Frame,
-main > section:nth-of-type(5) > .Frame > .Frame:last-child > .Frame,
-main > section:nth-of-type(6) > .Frame > .Frame > .Frame,
-#diferenciais > .Frame > .Frame:last-child {
-  background: #ffffff !important;
-  border: 1px solid rgba(45, 53, 46, 0.1) !important;
-  box-shadow: 0 4px 10px rgba(45, 53, 46, 0.1), 0 14px 30px rgba(45, 53, 46, 0.16) !important;
-}
-
-/* Correcoes finais de hierarquia das secoes */
-main > section:nth-of-type(4) > .Frame > .Frame:first-child,
-main > section:nth-of-type(6) > .Frame > .Frame:first-child {
-  display: flex !important;
-  width: 100% !important;
-  grid-template-columns: none !important;
-}
-
-main > section:nth-of-type(4) > .Frame > .Frame:nth-child(n+2),
-main > section:nth-of-type(6) > .Frame > .Frame:nth-child(n+2) {
-  display: grid !important;
-  width: 100% !important;
-  height: auto !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: stretch;
-}
-
-main > section:nth-of-type(4) > .Frame > .Frame:nth-child(n+2) > .Frame,
-main > section:nth-of-type(6) > .Frame > .Frame:nth-child(n+2) > .Frame {
-  width: 100% !important;
-  min-width: 0;
-}
-
-main > section:nth-of-type(4) > .Frame > .Frame:first-child > .Frame,
-main > section:nth-of-type(6) > .Frame > .Frame:first-child > .Frame {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-}
-
-#diferenciais > .Frame > .Frame:last-child {
-  background: #5e7e62 !important;
-}
-
-@media (max-width: 700px) {
-  main > section:nth-of-type(4) > .Frame > .Frame:nth-child(n+2),
-  main > section:nth-of-type(6) > .Frame > .Frame:nth-child(n+2) {
-    grid-template-columns: minmax(0, 1fr);
+    line-height:
+      1.55 !important;
   }
-}
 
-/* Centraliza a pagina inteira em telas largas */
-.page-shell {
-  width: 100%;
-  max-width: 1440px;
-  margin-inline: auto;
-}
+  .services-grid,
+  .portfolio-grid,
+  .steps-grid,
+  #depoimentos > .section-inner {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
 
-/* Depoimentos: composicao editorial em tres cards */
-main > section:nth-of-type(6) > .Frame {
-  display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 48px 24px !important;
-  align-items: stretch;
-}
-
-main > section:nth-of-type(6) > .Frame > .Frame:first-child {
-  grid-column: 1 / -1;
-  width: 100% !important;
-  align-self: auto !important;
-}
-
-main > section:nth-of-type(6) > .Frame > .Frame:first-child > .Frame:first-child {
-  align-self: center !important;
-  width: max-content !important;
-}
-
-main > section:nth-of-type(6) > .Frame > .Frame:nth-child(n+2) {
-  display: contents !important;
-}
-
-main > section:nth-of-type(6) > .Frame > .Frame:nth-child(n+2) > .Frame {
-  width: 100% !important;
-  height: auto !important;
-  min-height: 220px;
-  padding: 32px !important;
-  gap: 16px !important;
-  background: #faf7f2 !important;
-  border: 1px solid rgba(45, 53, 46, 0.1) !important;
-  border-radius: 20px !important;
-  box-shadow: 0 4px 10px rgba(45, 53, 46, 0.1), 0 14px 30px rgba(45, 53, 46, 0.16) !important;
-}
-
-main > section:nth-of-type(6) > .Frame > .Frame:nth-child(n+2) > .Frame > .Quote {
-  margin-bottom: 4px;
-}
-
-@media (max-width: 700px) {
-  main > section:nth-of-type(6) > .Frame {
-    grid-template-columns: minmax(0, 1fr);
+  #depoimentos > .section-inner {
     gap: 24px !important;
   }
 
-  main > section:nth-of-type(6) > .Frame > .Frame:first-child {
+  #depoimentos
+    > .section-inner
+    > .section-heading {
     grid-column: auto;
-  }
-}
 
-/* Selos de secao acima do conteudo */
-#quem-somos > .Frame,
-#diferenciais > .Frame {
-  position: relative;
-  padding-top: 176px !important;
-}
-
-#quem-somos > .Frame > .Frame:last-child > .Frame:first-child > .Frame:first-child,
-#diferenciais > .Frame > .Frame:first-child > .Frame:first-child > .Frame:first-child {
-  position: absolute;
-  top: 112px;
-  left: 50%;
-  width: max-content !important;
-  transform: translateX(-50%);
-}
-
-/* Como Funciona: tres cards com a mesma altura no desktop */
-@media (min-width: 701px) {
-  main > section:nth-of-type(5) > .Frame > .Frame:last-child {
-    align-items: stretch;
+    margin-bottom: 16px;
   }
 
-  main > section:nth-of-type(5) > .Frame > .Frame:last-child > .Frame {
-    height: 260px !important;
-    min-height: 260px;
+  .services-grid,
+  .portfolio-grid {
+    gap: 20px !important;
   }
 
-  /* Depoimentos: ritmo uniforme e leitura mais compacta */
-  main > section:nth-of-type(6) > .Frame > .Frame:nth-child(n+2) > .Frame {
-    height: 300px !important;
-    min-height: 300px;
-  }
-
-  main > section:nth-of-type(6) > .Frame > .Frame:nth-child(n+2) > .Frame > div:nth-child(2) {
-    font-size: 15px !important;
-    line-height: 24px !important;
-  }
-}
-
-@media (max-width: 700px) {
-  #quem-somos > .Frame,
-  #diferenciais > .Frame {
-    padding-top: 136px !important;
-  }
-
-  #quem-somos > .Frame > .Frame:last-child > .Frame:first-child > .Frame:first-child,
-  #diferenciais > .Frame > .Frame:first-child > .Frame:first-child > .Frame:first-child {
-    top: 72px;
-  }
-
-  main > section:nth-of-type(5) > .Frame > .Frame:last-child > .Frame,
-  main > section:nth-of-type(6) > .Frame > .Frame:nth-child(n+2) > .Frame {
+  .services-grid > .Frame > .Frame,
+  .portfolio-grid > .Frame,
+  .steps-grid > .Frame,
+  #depoimentos
+    > .section-inner
+    > .Frame:nth-child(n + 2)
+    > .Frame {
     height: auto !important;
+
+    min-height: 0 !important;
+  }
+
+  #servicos img,
+  #portfolio img {
+    aspect-ratio: 16 / 10;
+  }
+
+  .services-grid
+    > .Frame
+    > .Frame
+    > .Frame:last-child {
+    padding: 24px !important;
+  }
+
+  .portfolio-grid
+    > .Frame
+    > .Frame {
+    padding: 20px !important;
+  }
+
+  .steps-grid > .Frame {
+    padding: 24px !important;
+  }
+
+  #diferenciais
+    > .section-inner
+    > .Frame:last-child {
+    padding: 28px !important;
+
+    gap: 24px !important;
+  }
+
+  #diferenciais
+    > .section-inner
+    > .Frame:last-child
+    > .Frame:last-child {
+    display: flex !important;
+
+    flex-wrap: wrap;
+
+    gap:
+      18px
+      28px !important;
+  }
+
+  #diferenciais
+    .NutrindoConhecimentoImpulsionandoNegCiosLocais {
+    font-size:
+      28px !important;
+
+    line-height:
+      1.2 !important;
+  }
+
+  #coffees > .section-inner {
+    gap: 28px !important;
+  }
+
+  .coffee-row {
+    gap: 16px !important;
+  }
+
+  .coffee-card {
     min-height: 0;
+
+    height: auto !important;
+  }
+
+  .coffee-card-body {
+    grid-template-columns:
+      minmax(0, 1fr)
+      30px;
+
+    min-height: 0;
+
+    height: auto !important;
+
+    flex: none !important;
+
+    padding: 20px !important;
+
+    gap: 14px !important;
+  }
+
+  .coffee-card-copy {
+    max-width: none;
+  }
+
+  .coffee-card-copy
+    > div:first-child {
+    font-size:
+      18px !important;
+  }
+
+  .coffee-card-copy
+    > div:last-child {
+    max-width: none;
+
+    font-size:
+      14px !important;
+
+    line-height:
+      1.55 !important;
+  }
+
+  #coffees .PlanIcon {
+    width: 30px !important;
+
+    height: 30px !important;
+  }
+
+  .steps-grid {
+    gap: 18px !important;
+  }
+
+  [data-layer="01"],
+  [data-layer="02"],
+  [data-layer="03"] {
+    left: auto !important;
+
+    right: 18px !important;
+
+    top: 12px !important;
+
+    font-size:
+      54px !important;
+  }
+
+  #depoimentos
+    > .section-inner
+    > .Frame:nth-child(n + 2)
+    > .Frame {
+    padding: 24px !important;
+  }
+
+  .contact-card {
+    padding:
+      30px
+      20px !important;
+
+    gap: 22px !important;
+
+    border-radius:
+      22px !important;
+  }
+
+  .ProntoParaTransformarSuaExperiNcia {
+    font-size:
+      clamp(
+        30px,
+        8.5vw,
+        36px
+      ) !important;
+  }
+
+  .SejaParaOrganizarUmBanqueteDeEncerramentoAcadMicoOuRegularizarAsFichasETabelasDosSeusProdutosNossaEquipeEstProntaParaLheAtender {
+    font-size:
+      15px !important;
+  }
+
+  .cta-actions {
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    width: 100%;
+  }
+
+  .cta-action {
+    justify-content: flex-start;
+  }
+
+  .footer-inner {
+    padding-top:
+      30px !important;
+
+    padding-bottom:
+      20px !important;
+
+    gap: 22px !important;
+  }
+
+  .footer-main {
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    gap: 20px !important;
+  }
+
+  .footer-brand,
+  .footer-nav,
+  .footer-contact {
+    width: 100% !important;
+
+    justify-self: stretch;
+
+    align-items: center !important;
+
+    text-align: center;
+  }
+
+  .footer-description {
+    max-width: 42ch;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+
+    align-items: center !important;
+
+    text-align: center;
+
+    gap: 5px !important;
+  }
+
+  .Ellipse {
+    display: none !important;
   }
 }
 
-/* Quem Somos: rotulo simples, como os demais cabecalhos */
-#quem-somos > .Frame > .Frame:last-child > .Frame:first-child > .Frame:first-child {
-  padding: 0 !important;
-  background: transparent !important;
-  border-radius: 0 !important;
-}
+/* =========================================================
+   MOBILE PEQUENO
+   ========================================================= */
 
-#quem-somos > .Frame > .Frame:last-child > .Frame:first-child > .Frame:first-child .QuemSomos {
-  color: #e59892 !important;
-  font-size: 12px !important;
-  font-weight: 700 !important;
-  text-transform: none !important;
-  letter-spacing: 0;
-}
+@media (max-width: 480px) {
+  :root {
+    --page-gutter: 16px;
 
-/* Rodape: tres areas estaveis e contatos sem sobreposicao */
-.footer > .Frame {
-  padding-top: 64px !important;
-  padding-bottom: 32px !important;
-  gap: 48px !important;
-}
-
-.footer > .Frame > .Frame:first-child {
-  display: grid !important;
-  grid-template-columns: minmax(150px, 1fr) minmax(300px, 420px) minmax(150px, 1fr) !important;
-  align-items: start;
-  gap: 48px;
-}
-
-.footer > .Frame > .Frame:first-child > .Frame {
-  width: 100% !important;
-  min-width: 0;
-}
-
-.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) {
-  align-items: center !important;
-  text-align: center;
-}
-
-.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:first-child {
-  width: 100% !important;
-  height: auto !important;
-  padding: 0 !important;
-  justify-content: center !important;
-}
-
-.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:first-child img {
-  width: 132px !important;
-  height: 74px !important;
-}
-
-.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) {
-  display: grid !important;
-  grid-template-columns: 30px minmax(0, 1fr);
-  width: 100% !important;
-  height: auto !important;
-  padding-top: 12px;
-  gap: 14px 10px !important;
-  align-items: center !important;
-  text-align: left;
-}
-
-.footer .InstagramLogoIconFreePng1,
-.footer .WhatsappForBusinessIconFreePngRemovebgPreview21,
-.footer .EmailIconForYourWebsiteMobilePresentationAndLogoDesignFreeVectorRemovebgPreview1 {
-  width: 28px !important;
-  height: 28px !important;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-
-.footer .InstagramLogoIconFreePng1 {
-  background-image: url("../img/icone-instagram.png");
-}
-
-.footer .WhatsappForBusinessIconFreePngRemovebgPreview21 {
-  background-image: url("../img/icone-whatsapp.png");
-}
-
-.footer .EmailIconForYourWebsiteMobilePresentationAndLogoDesignFreeVectorRemovebgPreview1 {
-  background-image: url("../img/icone-email.png");
-}
-
-.footer .InstagramLogoIconFreePng1 svg,
-.footer .WhatsappForBusinessIconFreePngRemovebgPreview21 svg,
-.footer .EmailIconForYourWebsiteMobilePresentationAndLogoDesignFreeVectorRemovebgPreview1 svg {
-  display: none;
-}
-
-.footer > .Frame > .Frame:last-child {
-  width: 100% !important;
-  padding-top: 20px !important;
-}
-
-@media (max-width: 700px) {
-  .footer > .Frame > .Frame:first-child {
-    grid-template-columns: minmax(0, 1fr) !important;
-    gap: 32px;
+    --section-space: 52px;
   }
 
-  .footer > .Frame > .Frame:first-child > .Frame:nth-child(2) {
-    order: -1;
+  .HeroSection > .Frame:last-child {
+    aspect-ratio: 1 / 1;
   }
 
-  .footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) {
-    max-width: 280px;
-  }
-}
+  .HeroBadge {
+    width: 132px !important;
 
-/* Quem Somos segue o estilo textual das demais etiquetas */
-#quem-somos > .Frame > .Frame:last-child > .Frame:first-child > .Frame:first-child {
-  padding: 0 !important;
-  background: transparent !important;
-  border-radius: 0 !important;
-}
+    min-height: 86px;
 
-#quem-somos .QuemSomos {
-  color: #e59892 !important;
-  font-size: 14px !important;
-  font-weight: 700 !important;
-  text-transform: none !important;
-  letter-spacing: 0.02em;
-}
+    right: 10px !important;
 
-/* Rodape: tres areas claras, sem sobreposicao */
-.footer > .Frame {
-  display: block !important;
-  padding-top: 64px !important;
-  padding-bottom: 28px !important;
-}
-
-.footer > .Frame > .Frame:first-child {
-  display: grid !important;
-  grid-template-columns: minmax(150px, 1fr) minmax(280px, 1.4fr) minmax(150px, 1fr);
-  align-items: start !important;
-  gap: 64px;
-  width: 100% !important;
-}
-
-.footer > .Frame > .Frame:first-child > .Frame {
-  width: auto !important;
-  min-width: 0 !important;
-}
-
-.footer > .Frame > .Frame:first-child > .Frame:first-child,
-.footer > .Frame > .Frame:first-child > .Frame:last-child {
-  gap: 14px !important;
-  padding-top: 8px;
-}
-
-.footer > .Frame > .Frame:first-child > .Frame:first-child > .Frame,
-.footer > .Frame > .Frame:first-child > .Frame:last-child > .Frame {
-  height: auto !important;
-  gap: 9px !important;
-}
-
-.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) {
-  display: flex !important;
-  flex-direction: column;
-  align-items: center !important;
-  gap: 14px !important;
-  text-align: center;
-}
-
-.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:first-child {
-  width: auto !important;
-  height: auto !important;
-  padding: 0 !important;
-  justify-content: center !important;
-}
-
-.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:first-child img {
-  width: 132px !important;
-  height: 74px !important;
-}
-
-.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) {
-  display: grid !important;
-  grid-template-columns: 30px minmax(0, 1fr) 30px minmax(0, 1fr) 30px minmax(0, 1fr);
-  align-items: center !important;
-  width: 100% !important;
-  height: auto !important;
-  gap: 8px 10px !important;
-  text-align: left;
-}
-
-.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) > [data-svg-wrapper] {
-  width: 30px;
-  height: 30px;
-}
-
-.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) > [data-svg-wrapper] svg {
-  display: none;
-}
-
-.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) > [data-svg-wrapper]:first-child {
-  background: url("../img/icone-instagram.png") center / contain no-repeat;
-}
-
-.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) > [data-svg-wrapper]:nth-of-type(2) {
-  background: url("../img/icone-whatsapp.png") center / contain no-repeat;
-}
-
-.footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) > [data-svg-wrapper]:nth-of-type(3) {
-  background: url("../img/icone-email.png") center / contain no-repeat;
-}
-
-.footer > .Frame > .Frame:last-child {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  width: 100% !important;
-  margin-top: 48px;
-  padding-top: 20px !important;
-  border-top: 1px solid var(--line);
-}
-
-@media (max-width: 800px) {
-  .footer > .Frame > .Frame:first-child {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 36px 28px;
+    bottom: 10px !important;
   }
 
-  .footer > .Frame > .Frame:first-child > .Frame:nth-child(2) {
-    grid-column: 1 / -1;
-    grid-row: 1;
+  .section-heading > .Frame:first-child {
+    padding:
+      6px
+      14px !important;
   }
 
-  .footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) {
-    grid-template-columns: 30px minmax(0, 1fr) 30px minmax(0, 1fr);
+  .SoluEsCompletasCriadasParaElevarSeuPadrO,
+  .VislumbreDeMomentosReaisQueNutrimosEOrganizamos,
+  .TiposDeCoffees,
+  .TrSPassosSimplesParaOSeuProjetoNascer,
+  .OCarinhoDeQuemJContratouNossoTime,
+  .PorQueEscolherANutriaOParaSeuProjeto {
+    font-size:
+      30px !important;
   }
 
-  .footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) > [data-svg-wrapper]:nth-of-type(3),
-  .footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) > .EjnutriacaoGmailCom {
-    grid-column: span 1;
-  }
-}
+  .coffee-card-body {
+    padding:
+      18px !important;
 
-@media (max-width: 520px) {
-  .footer > .Frame > .Frame:first-child {
-    grid-template-columns: minmax(0, 1fr);
+    gap:
+      12px !important;
   }
 
-  .footer > .Frame > .Frame:first-child > .Frame:nth-child(2) {
-    grid-column: auto;
-    grid-row: auto;
+  .footer-brand-title {
+    font-size: 20px;
   }
-
-  .footer > .Frame > .Frame:first-child > .Frame:nth-child(2) > .Frame:nth-child(4) {
-    grid-template-columns: 30px minmax(0, 1fr);
-    width: fit-content !important;
-    max-width: 100%;
-  }
-
-  .footer > .Frame > .Frame:last-child {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 10px;
-  }
-}
-
-/* Icones de contato: seletores por classe evitam a ordem do HTML exportado */
-.footer .InstagramLogoIconFreePng1 {
-  background-image: url("../img/icone-instagram.png") !important;
-}
-
-.footer .WhatsappForBusinessIconFreePngRemovebgPreview21 {
-  background-image: url("../img/icone-whatsapp.png") !important;
-}
-
-.footer .EmailIconForYourWebsiteMobilePresentationAndLogoDesignFreeVectorRemovebgPreview1 {
-  background-image: url("../img/icone-email.png") !important;
-}
-
-/* Quem Somos deve ser apenas um rotulo, sem estilo de card */
-#quem-somos > .Frame > .Frame:last-child > .Frame:first-child > .Frame:first-child {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-
-/* Quem Somos identico ao rotulo Nossos Servicos */
-#quem-somos > .Frame > .Frame:last-child > .Frame:first-child > .Frame:first-child {
-  display: inline-flex !important;
-  width: max-content !important;
-  padding: 6px 16px !important;
-  background: #fbf3f1 !important;
-  border: 0 !important;
-  border-radius: 100px !important;
-  box-shadow: none !important;
-  position: absolute;
-}
-
-#quem-somos .QuemSomos {
-  color: #e59892 !important;
-  font-size: 12px !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0 !important;
-}
-
-#quem-somos > .Frame > .Frame:last-child > .Frame:first-child > .Frame:first-child > .QuemSomos {
-  text-transform: uppercase !important;
 }
