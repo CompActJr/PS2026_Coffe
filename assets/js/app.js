@@ -1,1523 +1,509 @@
 (() => {
-  const root = document.documentElement;
+  'use strict';
 
-  const init = () => {
-    const gsap = window.gsap;
+  const $ = (selector, scope = document) => scope.querySelector(selector);
+  const $$ = (selector, scope = document) => Array.from(scope.querySelectorAll(selector));
 
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const gsap = window.gsap;
+  const ScrollTrigger = window.ScrollTrigger;
 
-    /*
-      Limpa os sublinhados provisórios que ficaram
-      em alguns textos do portfólio exportado.
-    */
-    document
-      .querySelectorAll(
-        "#portfolio [data-layer]"
-      )
-      .forEach((element) => {
-        if (
-          element.childElementCount === 0
-        ) {
-          element.textContent =
-            element.textContent
-              .replace(
-                /\s*_{2,}\s*/g,
-                " "
-              )
-              .replace(
-                /\s{2,}/g,
-                " "
-              )
-              .trim();
-        }
-      });
+  if (gsap && ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.config({ ignoreMobileResize: true });
+  }
 
-    /*
-      Se o GSAP não carregar ou o usuário tiver
-      animações reduzidas ativadas, libera a página
-      normalmente.
-    */
-    if (
-      !gsap ||
-      reducedMotion
-    ) {
-      root.classList.add(
-        "animations-ready"
-      );
+  const header = $('.site-header');
+  const headerInner = $('.header-inner');
+  const menuToggle = $('.menu-toggle');
+  const mobileMenu = $('#mobile-menu');
 
+  /* =====================================================
+     NAVEGAÇÃO / MENU GLASS
+     ===================================================== */
+
+  const setMenuState = (open, immediate = false) => {
+    if (!menuToggle || !mobileMenu) return;
+
+    menuToggle.setAttribute('aria-expanded', String(open));
+    menuToggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+
+    const links = $$('a', mobileMenu);
+
+    if (!gsap || reducedMotion || immediate) {
+      if (gsap && immediate) {
+        gsap.killTweensOf([mobileMenu, ...links]);
+        gsap.set([mobileMenu, ...links], { clearProps: 'opacity,visibility,transform' });
+      }
+      mobileMenu.classList.toggle('is-open', open);
       return;
     }
 
-    const isMobile =
-      window.matchMedia(
-        "(max-width: 700px)"
-      ).matches;
-
-    const hasMouse =
-      window.matchMedia(
-        "(hover: hover) and (pointer: fine)"
-      ).matches;
-
-    gsap.defaults({
-      duration:
-        isMobile
-          ? 0.55
-          : 0.72,
-
-      ease:
-        "power3.out"
-    });
-
-    const first = (
-      selector,
-      context = document
-    ) =>
-      context.querySelector(
-        selector
-      );
-
-    const all = (
-      selector,
-      context = document
-    ) =>
-      Array.from(
-        context.querySelectorAll(
-          selector
-        )
-      );
-
-    const unique = (
-      items
-    ) =>
-      [
-        ...new Set(
-          items.filter(Boolean)
-        )
-      ];
-
-    /*
-      Prepara o estado inicial ANTES de liberar
-      os elementos visualmente.
-    */
-    const prepare = (
-      targets,
-      vars = {}
-    ) => {
-      const elements =
-        unique(
-          Array.from(
-            targets || []
-          )
-        );
-
-      if (
-        !elements.length
-      ) {
-        return elements;
-      }
-
-      gsap.set(
-        elements,
-        {
-          autoAlpha: 0,
-
-          y:
-            isMobile
-              ? 18
-              : 28,
-
-          force3D: true,
-
-          ...vars
-        }
-      );
-
-      return elements;
-    };
-
-    const clearAnimationProps = (
-      elements
-    ) => {
-      if (
-        !elements.length
-      ) {
-        return;
-      }
-
-      gsap.set(
-        elements,
-        {
-          clearProps:
-            "opacity,visibility,transform"
-        }
-      );
-    };
-
-    /*
-      Revela um ou vários elementos.
-    */
-    const reveal = (
-      targets,
-      vars = {}
-    ) => {
-      const elements =
-        unique(
-          Array.from(
-            targets || []
-          )
-        );
-
-      if (
-        !elements.length
-      ) {
-        return;
-      }
-
-      const userComplete =
-        vars.onComplete;
-
-      gsap.to(
-        elements,
-        {
-          autoAlpha: 1,
-
-          x: 0,
-
-          y: 0,
-
-          scale: 1,
-
-          rotation: 0,
-
-          duration:
-            isMobile
-              ? 0.55
-              : 0.72,
-
-          stagger:
-            isMobile
-              ? 0.07
-              : 0.1,
-
-          overwrite:
-            "auto",
-
-          ...vars,
-
-          onComplete: () => {
-            clearAnimationProps(
-              elements
-            );
-
-            if (
-              typeof userComplete ===
-              "function"
-            ) {
-              userComplete();
-            }
-          }
-        }
-      );
-    };
-
-    /*
-      IntersectionObserver para animar somente
-      quando a seção entrar no campo de visão.
-    */
-    const observe = (
-      trigger,
-      targets,
-      vars = {},
-      options = {}
-    ) => {
-      const elements =
-        unique(
-          Array.from(
-            targets || []
-          )
-        );
-
-      if (
-        !trigger ||
-        !elements.length
-      ) {
-        return;
-      }
-
-      const observer =
-        new IntersectionObserver(
-          (
-            entries,
-            currentObserver
-          ) => {
-            entries.forEach(
-              (entry) => {
-                if (
-                  !entry.isIntersecting
-                ) {
-                  return;
-                }
-
-                reveal(
-                  elements,
-                  vars
-                );
-
-                currentObserver
-                  .unobserve(
-                    entry.target
-                  );
-              }
-            );
-          },
-
-          {
-            threshold:
-              options.threshold ??
-              0.12,
-
-            rootMargin:
-              options.rootMargin ??
-              "0px 0px -8% 0px"
-          }
-        );
-
-      observer.observe(
-        trigger
-      );
-    };
-
-    /* =====================================================
-       ELEMENTOS
-       ===================================================== */
-
-    const navbar =
-      first(
-        ".Navbar"
-      );
-
-    /* =====================================================
-       HERO
-       ===================================================== */
-
-    const heroText =
-      first(
-        ".HeroSection > .Frame:first-child"
-      );
-
-    const heroImage =
-      first(
-        ".HeroSection > .Frame:last-child"
-      );
-
-    const heroBadge =
-      heroImage
-        ? first(
-            ":scope > .Frame",
-            heroImage
-          )
-        : null;
-
-    /* =====================================================
-       QUEM SOMOS
-       ===================================================== */
-
-    const quemSomos =
-      first(
-        "#quem-somos"
-      );
-
-    const quemSomosImage =
-      quemSomos
-        ? first(
-            ":scope > .Frame > .Frame:first-child",
-            quemSomos
-          )
-        : null;
-
-    const quemSomosContent =
-      quemSomos
-        ? first(
-            ":scope > .Frame > .Frame:last-child",
-            quemSomos
-          )
-        : null;
-
-    /* =====================================================
-       SERVIÇOS
-       ===================================================== */
-
-    const servicos =
-      first(
-        "#servicos"
-      );
-
-    const servicosHeader =
-      servicos
-        ? first(
-            ":scope > .Frame > .Frame:first-child",
-            servicos
-          )
-        : null;
-
-    const servicosCards =
-      servicos
-        ? all(
-            ":scope > .Frame > .Frame:last-child > .Frame",
-            servicos
-          )
-        : [];
-
-    /* =====================================================
-       PORTFÓLIO
-       ===================================================== */
-
-    const portfolio =
-      first(
-        "#portfolio"
-      );
-
-    const portfolioHeader =
-      portfolio
-        ? first(
-            ":scope > .Frame > .Frame:first-child",
-            portfolio
-          )
-        : null;
-
-    const portfolioCards =
-      portfolio
-        ? all(
-            ":scope > .Frame > .Frame:last-child > .Frame",
-            portfolio
-          )
-        : [];
-
-    /* =====================================================
-       COFFEES
-       ===================================================== */
-
-    const coffees =
-      first(
-        "#coffees"
-      ) ||
-      first(
-        "main > section:nth-of-type(4)"
-      );
-
-    const coffeesHeader =
-      coffees
-        ? first(
-            ":scope > .Frame > .Frame:first-child",
-            coffees
-          )
-        : null;
-
-    const coffeeCards =
-      coffees
-        ? all(
-            ":scope > .Frame > .Frame:nth-child(n + 2) > .Frame",
-            coffees
-          )
-        : [];
-
-    /* =====================================================
-       COMO FUNCIONA
-       ===================================================== */
-
-    const comoFunciona =
-      first(
-        "#como-funciona"
-      ) ||
-      first(
-        "main > section:nth-of-type(5)"
-      );
-
-    const comoHeader =
-      comoFunciona
-        ? first(
-            ":scope > .Frame > .Frame:first-child",
-            comoFunciona
-          )
-        : null;
-
-    const passos =
-      comoFunciona
-        ? all(
-            ":scope > .Frame > .Frame:last-child > .Frame",
-            comoFunciona
-          )
-        : [];
-
-    /* =====================================================
-       DEPOIMENTOS
-       ===================================================== */
-
-    const depoimentos =
-      first(
-        "#depoimentos"
-      ) ||
-      first(
-        "main > section:nth-of-type(6)"
-      );
-
-    const depoimentosHeader =
-      depoimentos
-        ? first(
-            ":scope > .Frame > .Frame:first-child",
-            depoimentos
-          )
-        : null;
-
-    const depoimentoCards =
-      depoimentos
-        ? all(
-            ":scope > .Frame > .Frame:nth-child(n + 2) > .Frame",
-            depoimentos
-          )
-        : [];
-
-    /* =====================================================
-       DIFERENCIAIS
-       ===================================================== */
-
-    const diferenciais =
-      first(
-        "#diferenciais"
-      );
-
-    const diferenciaisItems =
-      diferenciais
-        ? all(
-            ":scope > .Frame > .Frame",
-            diferenciais
-          )
-        : [];
-
-    /* =====================================================
-       CONTATO
-       ===================================================== */
-
-    const contato =
-      first(
-        "#contato"
-      );
-
-    const contatoCard =
-      contato
-        ? first(
-            ":scope > .Frame > .Frame:first-child",
-            contato
-          )
-        : null;
-
-    /* =====================================================
-       FOOTER
-       ===================================================== */
-
-    const footer =
-      first(
-        ".footer"
-      );
-
-    const footerColumns =
-      footer
-        ? all(
-            ":scope > .Frame > .Frame:first-child > .Frame",
-            footer
-          )
-        : [];
-
-    const footerBottom =
-      footer
-        ? first(
-            ":scope > .Frame > .Frame:last-child",
-            footer
-          )
-        : null;
-
-    /* =====================================================
-       ESTADOS INICIAIS
-       ===================================================== */
-
-    const preparedNavbar =
-      prepare(
-        [navbar],
-        {
-          y:
-            isMobile
-              ? -10
-              : -16
-        }
-      );
-
-    const preparedHeroText =
-      prepare(
-        [heroText],
-        {
-          y:
-            isMobile
-              ? 16
-              : 24
-        }
-      );
-
-    const preparedHeroImage =
-      prepare(
-        [heroImage],
-        {
-          y:
-            isMobile
-              ? 14
-              : 20,
-
-          scale:
-            isMobile
-              ? 0.99
-              : 0.985
-        }
-      );
-
-    const preparedHeroBadge =
-      prepare(
-        [heroBadge],
-        {
-          y: 12,
-
-          scale: 0.96
-        }
-      );
-
-    const preparedQuemImage =
-      prepare(
-        [quemSomosImage],
-
-        isMobile
-          ? {
-              y: 22
-            }
-          : {
-              x: -26,
-
-              y: 0,
-
-              scale: 0.99
-            }
-      );
-
-    const preparedQuemContent =
-      prepare(
-        [quemSomosContent],
-
-        isMobile
-          ? {
-              y: 22
-            }
-          : {
-              x: 26,
-
-              y: 0
-            }
-      );
-
-    const preparedServicosHeader =
-      prepare(
-        [servicosHeader],
-        {
-          y: 22
-        }
-      );
-
-    const preparedServicosCards =
-      prepare(
-        servicosCards,
-        {
-          y:
-            isMobile
-              ? 20
-              : 32,
-
-          scale: 0.985
-        }
-      );
-
-    const preparedPortfolioHeader =
-      prepare(
-        [portfolioHeader],
-        {
-          y: 22
-        }
-      );
-
-    const preparedPortfolioCards =
-      prepare(
-        portfolioCards,
-        {
-          y:
-            isMobile
-              ? 20
-              : 30,
-
-          scale: 0.988
-        }
-      );
-
-    const preparedCoffeesHeader =
-      prepare(
-        [coffeesHeader],
-        {
-          y: 22
-        }
-      );
-
-    const preparedCoffeeCards =
-      prepare(
-        coffeeCards,
-        {
-          y:
-            isMobile
-              ? 20
-              : 30,
-
-          scale: 0.988
-        }
-      );
-
-    const preparedComoHeader =
-      prepare(
-        [comoHeader],
-        {
-          y: 22
-        }
-      );
-
-    const preparedPassos =
-      prepare(
-        passos,
-        {
-          y:
-            isMobile
-              ? 20
-              : 32,
-
-          scale: 0.985
-        }
-      );
-
-    const preparedDepoimentosHeader =
-      prepare(
-        [depoimentosHeader],
-        {
-          y: 22
-        }
-      );
-
-    const preparedDepoimentos =
-      prepare(
-        depoimentoCards,
-        {
-          y:
-            isMobile
-              ? 20
-              : 28,
-
-          scale: 0.99
-        }
-      );
-
-    const preparedDiferenciais =
-      prepare(
-        diferenciaisItems,
-        {
-          y:
-            isMobile
-              ? 20
-              : 30
-        }
-      );
-
-    const preparedContato =
-      prepare(
-        [contatoCard],
-        {
-          y:
-            isMobile
-              ? 20
-              : 28,
-
-          scale: 0.99
-        }
-      );
-
-    const preparedFooterColumns =
-      prepare(
-        footerColumns,
-        {
-          y:
-            isMobile
-              ? 16
-              : 24,
-
-          scale: 0.99
-        }
-      );
-
-    const preparedFooterBottom =
-      prepare(
-        [footerBottom],
-        {
-          y: 12
-        }
-      );
-
-    root.classList.add(
-      "animations-ready"
-    );
-
-    /* =====================================================
-       ANIMAÇÃO INICIAL
-       ===================================================== */
-
-    const intro =
-      gsap.timeline({
-        defaults: {
-          ease:
-            "power3.out"
-        }
+    gsap.killTweensOf([mobileMenu, ...links]);
+
+    if (open) {
+      mobileMenu.classList.add('is-open');
+
+      gsap.set(mobileMenu, {
+        autoAlpha: 0,
+        xPercent: -50,
+        y: -12,
+        scale: 0.985,
+        transformOrigin: '50% 0%'
       });
 
-    if (
-      preparedNavbar.length
-    ) {
-      intro.to(
-        preparedNavbar,
+      gsap.to(mobileMenu, {
+        autoAlpha: 1,
+        xPercent: -50,
+        y: 0,
+        scale: 1,
+        duration: 0.28,
+        ease: 'power3.out'
+      });
+
+      gsap.fromTo(
+        links,
+        { autoAlpha: 0, x: 12 },
         {
           autoAlpha: 1,
-
-          y: 0,
-
-          duration:
-            isMobile
-              ? 0.42
-              : 0.55,
-
-          onComplete: () =>
-            clearAnimationProps(
-              preparedNavbar
-            )
+          x: 0,
+          duration: 0.3,
+          stagger: 0.045,
+          ease: 'power3.out',
+          delay: 0.06,
+          clearProps: 'opacity,visibility,transform'
         }
       );
-    }
-
-    if (
-      preparedHeroText.length
-    ) {
-      intro.to(
-        preparedHeroText,
-        {
-          autoAlpha: 1,
-
-          y: 0,
-
-          duration:
-            isMobile
-              ? 0.58
-              : 0.76,
-
-          onComplete: () =>
-            clearAnimationProps(
-              preparedHeroText
-            )
-        },
-
-        isMobile
-          ? "-=0.16"
-          : "-=0.25"
-      );
-    }
-
-    if (
-      preparedHeroImage.length
-    ) {
-      intro.to(
-        preparedHeroImage,
-        {
-          autoAlpha: 1,
-
-          y: 0,
-
-          scale: 1,
-
-          duration:
-            isMobile
-              ? 0.68
-              : 0.88,
-
-          ease:
-            "power3.out",
-
-          onComplete: () =>
-            clearAnimationProps(
-              preparedHeroImage
-            )
-        },
-
-        isMobile
-          ? "-=0.25"
-          : "-=0.4"
-      );
-    }
-
-    if (
-      preparedHeroBadge.length
-    ) {
-      intro.to(
-        preparedHeroBadge,
-        {
-          autoAlpha: 1,
-
-          y: 0,
-
-          scale: 1,
-
-          duration:
-            isMobile
-              ? 0.45
-              : 0.56,
-
-          ease:
-            "back.out(1.22)",
-
-          onComplete: () =>
-            clearAnimationProps(
-              preparedHeroBadge
-            )
-        },
-
-        "-=0.3"
-      );
-    }
-
-    /* =====================================================
-       QUEM SOMOS
-       ===================================================== */
-
-    observe(
-      quemSomos,
-
-      [
-        ...preparedQuemImage,
-        ...preparedQuemContent
-      ],
-
-      {
-        duration:
-          isMobile
-            ? 0.6
-            : 0.8,
-
-        stagger: 0.1
-      }
-    );
-
-    /* =====================================================
-       SERVIÇOS
-       ===================================================== */
-
-    observe(
-      servicos,
-
-      preparedServicosHeader,
-
-      {
-        duration:
-          isMobile
-            ? 0.5
-            : 0.62,
-
-        stagger: 0
-      }
-    );
-
-    observe(
-      servicosCards[0] ||
-        servicos,
-
-      preparedServicosCards,
-
-      {
-        stagger:
-          isMobile
-            ? 0.07
-            : 0.1
-      },
-
-      {
-        rootMargin:
-          "0px 0px -5% 0px"
-      }
-    );
-
-    /* =====================================================
-       PORTFÓLIO
-       ===================================================== */
-
-    observe(
-      portfolio,
-
-      preparedPortfolioHeader,
-
-      {
-        duration:
-          isMobile
-            ? 0.5
-            : 0.62,
-
-        stagger: 0
-      }
-    );
-
-    observe(
-      portfolioCards[0] ||
-        portfolio,
-
-      preparedPortfolioCards,
-
-      {
-        stagger:
-          isMobile
-            ? 0.07
-            : 0.1
-      },
-
-      {
-        rootMargin:
-          "0px 0px -5% 0px"
-      }
-    );
-
-    /* =====================================================
-       COFFEES
-       ===================================================== */
-
-    observe(
-      coffees,
-
-      preparedCoffeesHeader,
-
-      {
-        duration:
-          isMobile
-            ? 0.5
-            : 0.62,
-
-        stagger: 0
-      }
-    );
-
-    observe(
-      coffeeCards[0] ||
-        coffees,
-
-      preparedCoffeeCards,
-
-      {
-        stagger:
-          isMobile
-            ? 0.06
-            : 0.09
-      },
-
-      {
-        rootMargin:
-          "0px 0px -5% 0px"
-      }
-    );
-
-    /* =====================================================
-       COMO FUNCIONA
-       ===================================================== */
-
-    observe(
-      comoFunciona,
-
-      preparedComoHeader,
-
-      {
-        duration:
-          isMobile
-            ? 0.5
-            : 0.62,
-
-        stagger: 0
-      }
-    );
-
-    observe(
-      passos[0] ||
-        comoFunciona,
-
-      preparedPassos,
-
-      {
-        stagger:
-          isMobile
-            ? 0.07
-            : 0.11
-      },
-
-      {
-        rootMargin:
-          "0px 0px -5% 0px"
-      }
-    );
-
-    /* =====================================================
-       DEPOIMENTOS
-       ===================================================== */
-
-    observe(
-      depoimentos,
-
-      preparedDepoimentosHeader,
-
-      {
-        duration:
-          isMobile
-            ? 0.5
-            : 0.62,
-
-        stagger: 0
-      }
-    );
-
-    observe(
-      depoimentoCards[0] ||
-        depoimentos,
-
-      preparedDepoimentos,
-
-      {
-        stagger:
-          isMobile
-            ? 0.07
-            : 0.1
-      },
-
-      {
-        rootMargin:
-          "0px 0px -5% 0px"
-      }
-    );
-
-    /* =====================================================
-       DIFERENCIAIS
-       ===================================================== */
-
-    observe(
-      diferenciais,
-
-      preparedDiferenciais,
-
-      {
-        duration:
-          isMobile
-            ? 0.6
-            : 0.78,
-
-        stagger:
-          isMobile
-            ? 0.08
-            : 0.12
-      }
-    );
-
-    /* =====================================================
-       CONTATO
-       ===================================================== */
-
-    observe(
-      contato,
-
-      preparedContato,
-
-      {
-        duration:
-          isMobile
-            ? 0.62
-            : 0.8,
-
-        stagger: 0
-      }
-    );
-
-    /* =====================================================
-       FOOTER
-       ===================================================== */
-
-    observe(
-      footer,
-
-      [
-        ...preparedFooterColumns,
-        ...preparedFooterBottom
-      ],
-
-      {
-        duration:
-          isMobile
-            ? 0.55
-            : 0.72,
-
-        stagger:
-          isMobile
-            ? 0.07
-            : 0.1
-      },
-
-      {
-        rootMargin:
-          "0px 0px -2% 0px"
-      }
-    );
-
-    /* =====================================================
-       MICROINTERAÇÕES
-       ===================================================== */
-
-    if (
-      hasMouse
-    ) {
-      const hoverCards =
-        unique([
-          ...all(
-            "#servicos > .Frame > .Frame:last-child > .Frame > .Frame"
-          ),
-
-          ...portfolioCards,
-
-          ...coffeeCards,
-
-          ...passos,
-
-          ...depoimentoCards
-        ]);
-
-      hoverCards.forEach(
-        (card) => {
-          const planIcon =
-            first(
-              ".PlanIcon",
-              card
-            );
-
-          const image =
-            first(
-              "img",
-              card
-            );
-
-          const quote =
-            first(
-              ".Quote",
-              card
-            );
-
-          card.addEventListener(
-            "mouseenter",
-            () => {
-              gsap.to(
-                card,
-                {
-                  y: -5,
-
-                  duration:
-                    0.24,
-
-                  ease:
-                    "power2.out",
-
-                  overwrite:
-                    "auto"
-                }
-              );
-
-              if (
-                planIcon
-              ) {
-                gsap.to(
-                  planIcon,
-                  {
-                    scale: 1.08,
-
-                    rotation: 4,
-
-                    duration:
-                      0.26,
-
-                    ease:
-                      "power2.out",
-
-                    overwrite:
-                      "auto"
-                  }
-                );
-              }
-
-              if (
-                image
-              ) {
-                gsap.to(
-                  image,
-                  {
-                    scale: 1.025,
-
-                    duration:
-                      0.36,
-
-                    ease:
-                      "power2.out",
-
-                    overwrite:
-                      "auto"
-                  }
-                );
-              }
-
-              /*
-                Nos depoimentos o ícone
-                de aspas também reage.
-              */
-              if (
-                quote
-              ) {
-                gsap.to(
-                  quote,
-                  {
-                    scale: 1.08,
-
-                    y: -2,
-
-                    duration:
-                      0.24,
-
-                    ease:
-                      "power2.out",
-
-                    overwrite:
-                      "auto"
-                  }
-                );
-              }
-            }
-          );
-
-          card.addEventListener(
-            "mouseleave",
-            () => {
-              gsap.to(
-                card,
-                {
-                  y: 0,
-
-                  duration:
-                    0.28,
-
-                  ease:
-                    "power2.out",
-
-                  overwrite:
-                    "auto"
-                }
-              );
-
-              if (
-                planIcon
-              ) {
-                gsap.to(
-                  planIcon,
-                  {
-                    scale: 1,
-
-                    rotation: 0,
-
-                    duration:
-                      0.28,
-
-                    ease:
-                      "power2.out",
-
-                    overwrite:
-                      "auto"
-                  }
-                );
-              }
-
-              if (
-                image
-              ) {
-                gsap.to(
-                  image,
-                  {
-                    scale: 1,
-
-                    duration:
-                      0.32,
-
-                    ease:
-                      "power2.out",
-
-                    overwrite:
-                      "auto"
-                  }
-                );
-              }
-
-              if (
-                quote
-              ) {
-                gsap.to(
-                  quote,
-                  {
-                    scale: 1,
-
-                    y: 0,
-
-                    duration:
-                      0.26,
-
-                    ease:
-                      "power2.out",
-
-                    overwrite:
-                      "auto"
-                  }
-                );
-              }
-            }
-          );
+    } else {
+      gsap.to(mobileMenu, {
+        autoAlpha: 0,
+        xPercent: -50,
+        y: -10,
+        scale: 0.985,
+        duration: 0.2,
+        ease: 'power2.in',
+        onComplete: () => {
+          mobileMenu.classList.remove('is-open');
+          gsap.set(mobileMenu, { clearProps: 'opacity,visibility,transform' });
         }
-      );
-
-      /* ===================================================
-         BOTÕES DO CTA
-         =================================================== */
-
-      all(
-        ".cta-action"
-      ).forEach(
-        (button) => {
-          const icon =
-            first(
-              "img",
-              button
-            );
-
-          button.addEventListener(
-            "mouseenter",
-            () => {
-              gsap.to(
-                button,
-                {
-                  y: -3,
-
-                  duration:
-                    0.2,
-
-                  ease:
-                    "power2.out",
-
-                  overwrite:
-                    "auto"
-                }
-              );
-
-              if (
-                icon
-              ) {
-                gsap.to(
-                  icon,
-                  {
-                    scale:
-                      1.1,
-
-                    duration:
-                      0.22,
-
-                    ease:
-                      "back.out(1.6)",
-
-                    overwrite:
-                      "auto"
-                  }
-                );
-              }
-            }
-          );
-
-          button.addEventListener(
-            "mouseleave",
-            () => {
-              gsap.to(
-                button,
-                {
-                  y: 0,
-
-                  duration:
-                    0.24,
-
-                  ease:
-                    "power2.out",
-
-                  overwrite:
-                    "auto"
-                }
-              );
-
-              if (
-                icon
-              ) {
-                gsap.to(
-                  icon,
-                  {
-                    scale: 1,
-
-                    duration:
-                      0.22,
-
-                    ease:
-                      "power2.out",
-
-                    overwrite:
-                      "auto"
-                  }
-                );
-              }
-            }
-          );
-        }
-      );
+      });
     }
   };
 
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener('click', () => {
+      const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+      setMenuState(!isOpen);
+    });
+
+    $$('a', mobileMenu).forEach((link) => {
+      link.addEventListener('click', () => setMenuState(false));
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setMenuState(false);
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!mobileMenu.classList.contains('is-open')) return;
+      if (mobileMenu.contains(event.target) || menuToggle.contains(event.target)) return;
+      setMenuState(false);
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 960) setMenuState(false, true);
+    }, { passive: true });
+  }
+
+  const updateHeader = () => {
+    if (!header) return;
+    header.classList.toggle('is-scrolled', window.scrollY > 18);
+  };
+
+  updateHeader();
+  window.addEventListener('scroll', updateHeader, { passive: true });
+
   /* =====================================================
-     INICIALIZAÇÃO
+     LINK ATIVO + SCROLL SUAVE
      ===================================================== */
 
-  if (
-    document.readyState ===
-    "loading"
-  ) {
-    document.addEventListener(
-      "DOMContentLoaded",
-      init,
-      {
-        once: true
-      }
-    );
-  } else {
-    init();
+  const desktopNavLinks = $$('.desktop-nav a[href^="#"]');
+  const mobileNavLinks = $$('.mobile-menu a[href^="#"]:not(.mobile-menu-cta)');
+  const allNavLinks = [...desktopNavLinks, ...mobileNavLinks];
+
+  const sectionIds = [...new Set(
+    allNavLinks
+      .map((link) => link.getAttribute('href'))
+      .filter(Boolean)
+  )];
+
+  const sections = sectionIds
+    .map((id) => $(id))
+    .filter(Boolean);
+
+  if ('IntersectionObserver' in window && sections.length) {
+    const activeObserver = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+      if (!visible) return;
+
+      allNavLinks.forEach((link) => {
+        link.classList.toggle(
+          'is-active',
+          link.getAttribute('href') === `#${visible.target.id}`
+        );
+      });
+    }, {
+      rootMargin: '-30% 0px -56% 0px',
+      threshold: [0.05, 0.18, 0.45]
+    });
+
+    sections.forEach((section) => activeObserver.observe(section));
   }
+
+  $$('a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      const href = link.getAttribute('href');
+      if (!href || href === '#') return;
+
+      const target = $(href);
+      if (!target) return;
+
+      event.preventDefault();
+      target.scrollIntoView({
+        behavior: reducedMotion ? 'auto' : 'smooth',
+        block: 'start'
+      });
+    });
+  });
+
+  /* =====================================================
+     GSAP — INTRO, SCROLL, PARALLAX E MICROINTERAÇÕES
+     ===================================================== */
+
+  if (gsap && !reducedMotion) {
+    gsap.defaults({ ease: 'power3.out' });
+
+    const heroCopy = $('[data-hero-copy]');
+    const heroVisual = $('[data-hero-visual]');
+    const heroStamp = $('[data-hero-stamp]');
+    const heroPhoto = $('.hero-photo-wrap img');
+
+    const intro = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    if (headerInner) {
+      intro.fromTo(
+        headerInner,
+        { autoAlpha: 0, y: -24, scale: 0.985 },
+        { autoAlpha: 1, y: 0, scale: 1, duration: 0.7, clearProps: 'opacity,visibility,transform' }
+      );
+    }
+
+    if (heroCopy) {
+      const heroPieces = [
+        $('.eyebrow', heroCopy),
+        $('h1', heroCopy),
+        $('.hero-lead', heroCopy),
+        $('.hero-buttons', heroCopy)
+      ].filter(Boolean);
+
+      intro.fromTo(
+        heroPieces,
+        { autoAlpha: 0, y: 28, filter: 'blur(7px)' },
+        {
+          autoAlpha: 1,
+          y: 0,
+          filter: 'blur(0px)',
+          duration: 0.7,
+          stagger: 0.095,
+          clearProps: 'opacity,visibility,transform,filter'
+        },
+        '-=0.34'
+      );
+    }
+
+    if (heroVisual) {
+      intro.fromTo(
+        heroVisual,
+        {
+          autoAlpha: 0,
+          y: 30,
+          scale: 0.965,
+          clipPath: 'inset(8% 3% 8% 3% round 40px)'
+        },
+        {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          clipPath: 'inset(0% 0% 0% 0% round 38px)',
+          duration: 1.05,
+          ease: 'power4.out',
+          clearProps: 'opacity,visibility,transform,clipPath'
+        },
+        '-=0.48'
+      );
+    }
+
+    if (heroPhoto) {
+      intro.fromTo(
+        heroPhoto,
+        { scale: 1.09 },
+        { scale: 1.012, duration: 1.25, ease: 'power3.out' },
+        '-=1.0'
+      );
+    }
+
+    if (heroStamp) {
+      intro.fromTo(
+        heroStamp,
+        { autoAlpha: 0, y: 10, scale: 0.96 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.52,
+          ease: 'power3.out',
+          clearProps: 'opacity,visibility,transform'
+        },
+        '-=0.40'
+      );
+    }
+
+    const animateWithFallback = (trigger, targets, fromVars, toVars = {}) => {
+      const elements = (Array.isArray(targets) ? targets : [targets]).filter(Boolean);
+      if (!trigger || !elements.length) return;
+
+      const finalVars = {
+        autoAlpha: 1,
+        x: 0,
+        y: 0,
+        scale: 1,
+        rotation: 0,
+        rotationX: 0,
+        rotationY: 0,
+        filter: 'blur(0px)',
+        duration: 0.74,
+        stagger: 0.09,
+        ease: 'power3.out',
+        clearProps: 'opacity,visibility,transform,filter',
+        ...toVars
+      };
+
+      gsap.set(elements, { autoAlpha: 0, ...fromVars });
+
+      if (ScrollTrigger) {
+        gsap.to(elements, {
+          ...finalVars,
+          scrollTrigger: {
+            trigger,
+            start: 'top 84%',
+            once: true
+          }
+        });
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries, currentObserver) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          gsap.to(elements, finalVars);
+          currentObserver.unobserve(entry.target);
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -8% 0px'
+      });
+
+      observer.observe(trigger);
+    };
+
+    $$('[data-reveal]').forEach((element) => {
+      if (element.classList.contains('section-heading')) {
+        const pieces = [
+          $('.eyebrow', element),
+          $('.section-title', element),
+          $('.section-text', element)
+        ].filter(Boolean);
+
+        animateWithFallback(
+          element,
+          pieces,
+          { y: 30, filter: 'blur(7px)' },
+          { stagger: 0.095, duration: 0.72 }
+        );
+        return;
+      }
+
+      if (element.classList.contains('about-photo')) {
+        animateWithFallback(
+          element,
+          element,
+          {
+            x: -34,
+            scale: 0.975,
+            clipPath: 'inset(0 12% 0 0 round 32px)'
+          },
+          {
+            duration: 0.92,
+            clipPath: 'inset(0 0% 0 0 round 32px)',
+            clearProps: 'opacity,visibility,transform,filter,clipPath'
+          }
+        );
+        return;
+      }
+
+      const from = element.classList.contains('reveal-left')
+        ? { x: -30, y: 0, filter: 'blur(5px)' }
+        : element.classList.contains('reveal-right')
+          ? { x: 30, y: 0, filter: 'blur(5px)' }
+          : { y: 28, filter: 'blur(5px)' };
+
+      animateWithFallback(element, element, from, { stagger: 0 });
+    });
+
+    $$('[data-stagger-group]').forEach((group) => {
+      const items = $$('[data-stagger-item]', group);
+
+      animateWithFallback(
+        group,
+        items,
+        {
+          y: 38,
+          scale: 0.975,
+          rotationX: 4,
+          transformPerspective: 900,
+          transformOrigin: '50% 100%'
+        },
+        {
+          duration: 0.72,
+          stagger: 0.085
+        }
+      );
+    });
+
+    if (ScrollTrigger) {
+      const impactPanel = $('.impact-panel');
+      if (impactPanel) {
+        const tags = $$('.impact-tag', impactPanel);
+        if (tags.length) {
+          gsap.fromTo(
+            tags,
+            { autoAlpha: 0, y: 18, scale: 0.96 },
+            {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.5,
+              stagger: 0.08,
+              ease: 'back.out(1.25)',
+              scrollTrigger: {
+                trigger: tags[0],
+                start: 'top 88%',
+                once: true
+              },
+              clearProps: 'opacity,visibility,transform'
+            }
+          );
+        }
+      }
+
+      const contactLinks = $$('.contact-link');
+      if (contactLinks.length) {
+        gsap.fromTo(
+          contactLinks,
+          { autoAlpha: 0, x: 28 },
+          {
+            autoAlpha: 1,
+            x: 0,
+            duration: 0.58,
+            stagger: 0.08,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: '.contact-actions',
+              start: 'top 86%',
+              once: true
+            },
+            clearProps: 'opacity,visibility,transform'
+          }
+        );
+      }
+
+      const footerPieces = [$('.footer-brand-block'), $('.footer-contact'), $('.footer-bottom')].filter(Boolean);
+      if (footerPieces.length) {
+        gsap.fromTo(
+          footerPieces,
+          { autoAlpha: 0, y: 16 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.55,
+            stagger: 0.08,
+            scrollTrigger: {
+              trigger: '.site-footer',
+              start: 'top 94%',
+              once: true
+            },
+            clearProps: 'opacity,visibility,transform'
+          }
+        );
+      }
+    }
+
+    /* Cards com inclinação 3D discreta no desktop. */
+    if (finePointer) {
+      const tiltCards = $$('.service-card, .portfolio-card, .plan-card, .testimonial-card, .mini-card');
+
+      tiltCards.forEach((card) => {
+        const rotateX = gsap.quickTo(card, 'rotationX', { duration: 0.34, ease: 'power3.out' });
+        const rotateY = gsap.quickTo(card, 'rotationY', { duration: 0.34, ease: 'power3.out' });
+        const moveY = gsap.quickTo(card, 'y', { duration: 0.28, ease: 'power3.out' });
+
+        card.addEventListener('mousemove', (event) => {
+          const rect = card.getBoundingClientRect();
+          const px = (event.clientX - rect.left) / rect.width - 0.5;
+          const py = (event.clientY - rect.top) / rect.height - 0.5;
+
+          rotateY(px * 4.5);
+          rotateX(py * -4.5);
+          moveY(-4);
+        });
+
+        card.addEventListener('mouseleave', () => {
+          rotateX(0);
+          rotateY(0);
+          moveY(0);
+        });
+      });
+
+      /* Botões levemente magnéticos sem alterar o layout. */
+      $$('.btn').forEach((button) => {
+        const moveX = gsap.quickTo(button, 'x', { duration: 0.28, ease: 'power3.out' });
+        const moveY = gsap.quickTo(button, 'y', { duration: 0.28, ease: 'power3.out' });
+
+        button.addEventListener('mousemove', (event) => {
+          const rect = button.getBoundingClientRect();
+          const x = event.clientX - rect.left - rect.width / 2;
+          const y = event.clientY - rect.top - rect.height / 2;
+          moveX(x * 0.08);
+          moveY(y * 0.10 - 2);
+        });
+
+        button.addEventListener('mouseleave', () => {
+          moveX(0);
+          moveY(0);
+        });
+      });
+    }
+  }
+
+  /* Mantém os cálculos de ScrollTrigger alinhados após imagens e fontes terminarem de carregar. */
+  if (ScrollTrigger) {
+    window.addEventListener('load', () => {
+      requestAnimationFrame(() => ScrollTrigger.refresh());
+    }, { once: true });
+  }
+
 })();
